@@ -1,0 +1,3481 @@
+			game:GetService("StarterGui"):SetCore("SendNotification", {
+				Title = "Mineblox is loading";
+				Text = "Please wait.",
+				Duration = 5,
+			})
+
+
+if not game:IsLoaded() then repeat task.wait() until game:IsLoaded() task.wait(math.random(3, 5) + math.random()) end
+
+
+
+task.wait(4)
+
+if not LPH_OBFUSCATED then
+	LPH_NO_VIRTUALIZE = function(...) return ... end
+	LPH_NO_UPVALUES = function(f) return(function(...) return f(...) end) end
+end
+
+local C = function(F)
+	if not F then
+		return
+	elseif clonefunction and hookfunction then
+		local Result = clonefunction(F)
+		if Result ~= F then
+			local NewFunc = coroutine.wrap(coroutine.isyieldable)
+			local Result2 = hookfunction(NewFunc, LPH_NO_UPVALUES(function()
+				return "CHICKEN JOCKEY!!"
+			end))
+
+			pcall(hookfunction(Result2, Result))
+
+			return Result2
+		end
+	end
+
+	game:GetService("StarterGui"):SetCore("SendNotification", {
+		Title = "Executor Not Supported!";
+		Text = "The executor you are using is not supported, Please check supported executors in the discord.",
+	})
+
+	return (wait(9e9) and (function()
+		while true do
+			Instance.new("Part", workspace)
+		end
+	end)())
+end
+
+C = C(C)
+
+local Stats = stats
+Drawing, pairs, request, delfile, getcustomasset, getidentity, getgc, Rawget, isnetworkowner, isfolder, makefolder, getnilinstances, setidentity, getrunningscripts, getscriptbytecode, clonefunction, isfile, readfile, writefile, setfpscap, islclosure, getrenv, setupvalue, foreach, getupvalues, getconnections, getnamecallmethod, get_signal_cons, getsenv, Getfenv, setclipboard, toclipboard, set, getrawmetatable, Setrawmetatable, hookfunction, checkcaller, newcclosure, firetouchinterest, setmetatable, getmetatable, LRM_ScriptVersion, LRM_UserNote, LRM_IsUserPremium =
+	Drawing, C(pairs), C(request), C(delfile), C(getcustomasset), C(getidentity), C(getgc), C(rawget), C(isnetworkowner), C(isfolder), C(makefolder), C(getnilinstances), C(setidentity), C(getrunningscripts), C(getscriptbytecode), C(clonefunction), C(isfile), C(readfile), C(writefile), C(setfpscap), C(islclosure), C(getrenv), C(setupvalue), table.foreach, C(getupvalues), C(getconnections), C(getnamecallmethod), C(get_signal_cons), C(getsenv), C(getfenv), C(setclipboard), C(toclipboard), C(set), C(getrawmetatable), C(setrawmetatable), C(hookfunction), C(checkcaller), C(newcclosure), C(firetouchinterest), C(setmetatable), C(getmetatable), LRM_ScriptVersion, LRM_UserNote, LRM_IsUserPremium
+
+if not LRM_ScriptVersion then _G.SoftAntiBan = true _G.RanERX = false _G.IgnoreWarns = true LRM_IsUserPremium, LRM_UserNote, LRM_LinkedDiscordID = true, "", 0 end
+
+if getgenv().SimpleSpyExecuted and LRM_ScriptVersion and not _G.SoftAntiBan then
+	game:GetService("StarterGui"):SetCore("SendNotification", {
+		Title = "ERX - Error";
+		Text = "Please do not have Simplespy executed",
+	})
+	return
+end
+
+if not cloneref then
+	cloneref = function(A) return A end
+end
+
+local SafeFireServer = C(Instance.new("RemoteEvent").fireServer)
+
+local MarketplaceService = cloneref(game:GetService("MarketplaceService"))
+local ReplicatedStorage = cloneref(game:GetService("ReplicatedStorage"))
+local UserInputService = cloneref(game:GetService("UserInputService"))
+local TeleportService = cloneref(game:GetService("TeleportService"))
+local ScriptContext = cloneref(game:GetService("ScriptContext"))
+local HttpService = cloneref(game:GetService("HttpService"))
+local RunService = cloneref(game:GetService("RunService"))
+local LogService = cloneref(game:GetService("LogService"))
+local StarterGui = cloneref(game:GetService("StarterGui"))
+local WorkSpace = cloneref(game:GetService("Workspace"))
+
+local StatsService = cloneref(game:GetService("Stats"))
+local ChatService = cloneref(game:GetService("Chat"))
+local VirtualUser = cloneref(game:GetService("VirtualUser"))
+local Lighting = cloneref(game:GetService("Lighting"))
+local Players = cloneref(game:GetService("Players"))
+local Teams = cloneref(game:GetService("Teams"))
+
+local GameId = game.GameId
+local PlaceId = game.placeId
+local JobId = game.JobId
+local LocalPlayer = Players.LocalPlayer
+
+local Mouse = LocalPlayer:GetMouse()
+
+local Character = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
+local Humanoid = Character:FindFirstChildWhichIsA("Humanoid") or Character:WaitForChild("Humanoid", 9e9)
+local HumanoidRootPart = Character:FindFirstChild("HumanoidRootPart") or Character:WaitForChild("HumanoidRootPart", 9e9)
+
+
+	local Camera = Workspace.CurrentCamera or Workspace:WaitForChild("Camera")
+	local BountyVehicles = WorkSpace:WaitForChild("BountyVehicles", 9e9):WaitForChild("Vehicles", 9e9)
+	local JewelryCases = WorkSpace:WaitForChild("JewelryCases", 9e9)
+	local StreetLamps = WorkSpace:WaitForChild("Street Lamps", 9e9)
+	local BasketBalls = WorkSpace:WaitForChild("Basketballs", 9e9)
+	local Helicopters = WorkSpace:WaitForChild("Helicopter", 9e9)
+	local Deployables = WorkSpace:WaitForChild("Deployables", 9e9)
+	local Vehicles = WorkSpace:WaitForChild("Vehicles", 9e9)
+	local ModShop = WorkSpace:WaitForChild("EnterableBuildings", 9e9):WaitForChild("ModShop", 9e9)
+	local Houses = WorkSpace:WaitForChild("Houses", 9e9)
+	local ATMs = WorkSpace:WaitForChild("ATMs", 9e9)
+
+local env = getrenv and getrenv()
+local RobloxENV = (env and env._G and env) or SecureENV
+local Roblox_G = RobloxENV._G
+	local OriginalMETA = getrawmetatable(game)
+
+local ExploitENV = Getfenv(1)
+local CopyFunction = setclipboard or toclipboard or set
+local GetConnections = getconnections or get_signal_cons
+
+	ModShop.ModelStreamingMode = Enum.ModelStreamingMode.Persistent
+
+
+		local Modules = ReplicatedStorage:WaitForChild("Modules", 9e9)
+
+		local ClientModules = {
+		ProjectileHandler = require(LocalPlayer.PlayerScripts.Core:WaitForChild("ProjectileHandler", 9e9)),
+		CivilianGuns = require(Modules:WaitForChild("CivilianGuns", 9e9)),
+		PoliceGuns = require(Modules:WaitForChild("LawGuns", 9e9)),
+	}
+
+	local RealNetwork
+	for index, obj in pairs(getgc(true)) do
+		if
+			type(obj) == "table"
+			and rawget(obj, "Fire")
+			and typeof(rawget(obj, "Fire")) == "function"
+			and rawget(obj, "getRemote")
+		then
+			RealNetwork = obj
+			break
+		end
+	end
+
+	local SecureENV = getsenv(LocalPlayer.PlayerScripts:WaitForChild("Client Game Analytics", 9e9))
+	local Settings = ReplicatedStorage:WaitForChild("PrivateServers", 9e9)
+
+
+local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
+
+local Window = Fluent:CreateWindow({
+    Title = "ER:LC Script ",
+    SubTitle = "by Mineblox",
+    TabWidth = 160,
+    Size = UDim2.fromOffset(580, 460),
+    Acrylic = false,
+    Theme = "Dark",
+    MinimizeKey = Enum.KeyCode.LeftControl
+})
+
+
+local Tabs = {
+    Main = Window:AddTab({ Title = "Main", Icon = "layers" }),
+    LocalPlayer = Window:AddTab({ Title = "LocalPlayer", Icon = "user" }),
+    Trolling = Window:AddTab({ Title = "Trolling", Icon = "laugh" }),
+    Visuals = Window:AddTab({ Title = "Visuals", Icon = "monitor" }),
+    VehicleMods = Window:AddTab({ Title = "Vehicle Mods", Icon = "car" }),
+    GunMods = Window:AddTab({ Title = "Gun Mods", Icon = "axe" }),
+    Aimbot = Window:AddTab({ Title = "Aimbot", Icon = "crosshair" }),
+    Automation = Window:AddTab({ Title = "Automation", Icon = "bot" }),
+    Robberies = Window:AddTab({ Title = "Robberies", Icon = "piggy-bank" }),
+    Teleports = Window:AddTab({ Title = "Teleports", Icon = "box" }),
+    Settings = Window:AddTab({ Title = "Settings", Icon = "settings" })
+}
+Window:SelectTab(1)
+
+	local FE = ReplicatedStorage:WaitForChild("FE")
+	local Actions = FE:WaitForChild("Actions", 9e9)
+
+
+	local RobJewelryRemote = FE:WaitForChild("RobJewelry", 9e9) -- :: RemoteEvent
+	local RagdollEvent = FE:WaitForChild("Ragdoll", 9e9)
+	local PushCurrency = FE:WaitForChild("PushCurrency", 9e9)
+
+	local ChangeRoleplayInfo = FE:WaitForChild("ChangeRoleplayInfo", 9e9)
+	local AcceptedModRequest = FE:WaitForChild("AcceptedModRequest", 9e9)
+	local FillStaminaRemote = FE:WaitForChild("FillStaminaBought", 9e9)
+	local EquippedHandcuffs = FE:WaitForChild("EquippedHandcuffs", 9e9)
+	local EnviromentRemote = Actions:WaitForChild("Environmental", 9e9)
+	local ChangeWeather = FE:WaitForChild("ChangeWeather", 9e9)
+	local PromptKeypad = FE:WaitForChild("PromptKeypad", 9e9)
+	local UseHandcuffs = FE:WaitForChild("UseHandcuffs", 9e9)
+
+	local SetCarDirt = FE:WaitForChild("SetCarDirt", 9e9)
+	local PunchEvent = FE:WaitForChild("Punch", 9e9)
+	local Chat = FE:WaitForChild("Chat", 9e9)
+
+	local ToggleRagdoll = FE:WaitForChild("ToggleRagdoll", 9e9)
+
+	local EquipGunRemote = FE:WaitForChild("EquipGun") -- :: RemoteEvent
+
+	local BuyGearRemote = FE:FindFirstChild("BuyGear")
+	local BuyGunRemote = FE:FindFirstChild("BuyGun")
+	local GetDataAttribute = FE:WaitForChild("GetDataAttribute", 9e9)
+	local BuyAmmoRemote = FE:WaitForChild("BuyAmmo")
+
+	local DeathRespawn = FE:WaitForChild("DeathRespawn", 9e9)
+
+	local GameTools = {'RFID Disruptor', 'Glass Cutter', 'Crowbar', 'Baseball Bat', 'Knife', 'Lockpick', 'Scanner', 'Hammer', 'Spray Can', 'Flashlight'}
+	local GameGuns = {"Ammo Box"}
+
+	for GunName in pairs(ClientModules.CivilianGuns) do
+		table.insert(GameGuns, GunName)
+	end
+
+	local AllGuns = table.clone(GameGuns)
+	table.remove(AllGuns, table.find(AllGuns, "Ammo Box"))
+
+	for GunName in pairs(ClientModules.PoliceGuns) do
+		table.insert(AllGuns, GunName)
+	end
+
+
+
+	local TeleportLocations = {
+		["Bank"] = Vector3.new(-976.613, 35.300, 432.653),
+		["Gun Store"] = Vector3.new(-1169, 27, -199),
+		["Jewelry"] = Vector3.new(-463.152, 35.514, -407.259),
+		["Chop Shop"] = Vector3.new(1651, 5, -484),
+		["Tool Store"] = Vector3.new(-455, 24, -743),
+		["Police Station"] = Vector3.new(801.368, 14.461, -76.762),
+		["Watch tower"] = Vector3.new(2700.318, 272.309, -45.640),
+		["Spawn"] = Vector3.new(-534, 25, 709),
+		["Gas Station"] = Vector3.new(-1014, 24.5, 708),
+		["Criminal Base"] = Vector3.new(2931, 84, -763),
+		["Mountain"] = Vector3.new(1449.913, 98.898, 1110.012),
+		["ATM 1"] = Vector3.new(-374.843, 28.748, 150.783),
+		["ATM 2"] = Vector3.new(-571.630, 27.248, -402.883),
+		["Sheriff's office"] = Vector3.new(1595.786, -5.877, -1916.918),
+		["Bridge"] = Vector3.new(717.882, 27.198, -3238.051),
+		["Houses"] = Vector3.new(-703.759, -9.052, -1744.330),
+		["Park"] = Vector3.new(194.769, 2.998, 289.757),
+		["SafeSpot"] = Vector3.new(2070, 10, 454),
+	}
+
+	local SpecialLocations = {
+		["Tool Store"] = Vector3.new(-455, 25, -688),
+
+		["OutsideBank"] = Vector3.new(-1120, 24, 447),
+		["BankTop"] = Vector3.new(-1093, 54, 446),
+		["BankKeypad"] = Vector3.new(-1097, 28, 424),
+		["BankVault"] = Vector3.new(-1039, 7, 432),
+
+		["Chopshop Inside"] = Vector3.new(1632, 3, -497),
+
+		["SafeSpot"] = Vector3.new(2070, 10, 454),
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	local Functions
+
+	local HookedFuncs = {}
+	local OldLightCF
+
+
+    
+Functions = {
+		Respawn = (function(self)
+			while Character:FindFirstChildWhichIsA("ForceField") do
+				task.wait()
+			end
+
+			local RespawnLocation = "River City"
+
+			if Roblox_G.ClientSettings.CivSpawnLocation == "Springfield" and LocalPlayer.Team == Teams.Civilian then
+				RespawnLocation = "Springfield"
+			end
+
+			SafeFireServer(EnviromentRemote, 1000)
+			SafeFireServer(DeathRespawn, RespawnLocation)
+			LocalPlayer.CharacterRemoving:Wait()
+		end),
+
+        		IsAlive = (function(self, Humanoid)
+			return Humanoid and Humanoid.Health > 0.101
+		end),
+
+		GetLocalPlayerCar = (function(self)
+			for _, Vehicle in ipairs(Vehicles:GetChildren()) do
+				if Vehicle:GetAttribute("Owner") and Vehicle:GetAttribute("Owner") == LocalPlayer.Name then
+					return Vehicle
+				end
+			end
+			return false
+		end),
+
+        		IsWanted = (function(self, Player)
+			if Player and Player.Team ~= Teams.Jail then
+				if Player:FindFirstChild("Is_Wanted") or (Player.Team == Teams["Civilian"] and Settings.ArrestCivs.Value) then
+					return true
+				end
+			end
+
+			return false
+		end),
+
+		ToolIsAnGun = (function(self, Tool)
+			return (Tool and table.find(AllGuns, Tool.Name) and true) or false
+		end),
+
+		CanKillPlayer = (function(self, Player)
+			if not (typeof(Player) == "Instance" and Player:IsA("Player") and Player ~= LocalPlayer) then
+				return false
+			end
+
+			if not LocalPlayer.Team or not Player.Team then return false end  
+
+			local TargetChar = Player.Character
+			local TargetHumanoid = TargetChar and TargetChar:FindFirstChildWhichIsA("Humanoid")
+			if not (Functions:IsAlive(Humanoid) and Functions:IsAlive(TargetHumanoid) and TargetChar:FindFirstChild("Head")) then
+				return false
+			elseif TargetChar:FindFirstChildWhichIsA("ForceField") then
+				return false
+			end
+
+			local MainTeam = LocalPlayer.Team.Name
+			local PlayerTeam = Player.Team.Name
+
+			if MainTeam == "Civilian" and (PlayerTeam == "Police" or PlayerTeam == "Sheriff") then
+				return true
+			elseif (MainTeam == "Civilian" and PlayerTeam == "Civilian") or 
+				((MainTeam == "Police" or MainTeam == "Sheriff") and PlayerTeam == "Civilian") then
+
+				for _, Tool in ipairs(Player.Backpack:GetChildren()) do
+					if Functions:ToolIsAnGun(Tool) then return true end
+				end
+
+				return Functions:ToolIsAnGun(TargetChar:FindFirstChildWhichIsA("Tool"))
+			end
+
+			return false 
+		end),
+
+		GetClosestVehicle = (function(self, HasDriver)
+			local ClosestVehicle, Distance = nil, math.huge
+
+			for _, Vehicle in ipairs(Vehicles:GetChildren()) do
+				if Vehicle.PrimaryPart and (HasDriver and Vehicle:FindFirstChild("DriverSeat") and Vehicle:FindFirstChild("DriverSeat").Occupant == nil) then
+					if (Vehicle.PrimaryPart.Position - Character.PrimaryPart.Position).Magnitude < Distance then
+						ClosestVehicle = Vehicle
+						Distance = (Vehicle.PrimaryPart.Position - Character.PrimaryPart.Position).Magnitude
+					end
+				end
+			end
+
+			return ClosestVehicle
+		end),
+
+        		LoadPlayerZone = (function(self, ...)
+			return pcall(LocalPlayer.RequestStreamAroundAsync, LocalPlayer, ...)
+		end),
+
+        		IsLocalPlayerSitting = (function(self, Humanoid)
+			local Humanoid = Humanoid or Character:FindFirstChildWhichIsA("Humanoid")
+
+			return (Humanoid and Humanoid.SeatPart and Humanoid.Sit) or false
+		end),
+
+        		HasReplicated = (function(self)
+			for _,v in ipairs(WorkSpace.ATMs:GetChildren()) do
+				if v.ModelStreamingMode == Enum.ModelStreamingMode.Persistent then
+					return true, v
+				end
+			end
+
+			return false, nil
+		end),
+
+		GetPing = (function(self)
+			return StatsService:WaitForChild("PerformanceStats", 9e9):WaitForChild("Ping", 9e9):GetValue() / 1000 - 0.1 or 0.321
+		end),
+
+		GenerateRandomString = (function(self)
+			local Text = ""
+			for i = 1, math.random(3,8) do
+				Text = Text .. string.char(math.random(97, 122))
+			end
+			return Text
+		end),
+
+				ClientTP = (function(self, Position, PreloadBeforeTP)
+			if Position and Functions:IsAlive(Humanoid) then
+				if typeof(Position) == "Vector3" then
+					Position = CFrame.new(Position)
+				end
+
+				if PreloadBeforeTP then
+					task.spawn(function(self) -- Puede hacer literalmente un wait(9e9)
+						Functions:LoadPlayerZone(typeof(Position) == "CFrame" and Position.Position or Position, 2)
+					end)
+
+					local TPConn = RunService.PreRender:Connect(LPH_NO_VIRTUALIZE(function(self)
+						if HumanoidRootPart then
+							Character:PivotTo(Position)
+							HumanoidRootPart.AssemblyLinearVelocity = Vector3.zero
+						end
+					end))
+
+					task.wait(_G.AutoRob and 2 or 0.8)
+					TPConn:Disconnect()
+				end
+
+				Character:PivotTo(Position)
+			end
+		end),
+	
+		IsVisibleERXUser = (function(self, Player)
+			if Player and Player:FindFirstChild("RoleplayInfo") and Player.RoleplayInfo:FindFirstChild("RoleplayName") then
+				local Name = Player.RoleplayInfo.RoleplayName.Value
+
+				return (string.len(Name) >= 6 and Name:sub(2,2) == "E" and Name:sub(4,4) == "R" and Name:sub(6,6) == "X")
+			end
+
+			return false
+		end),
+
+		StartReplication = (function(self)
+			local HasReplicated, Model = Functions:HasReplicated()
+			local ReplicateATM = WorkSpace.ATMs:GetChildren()[1]
+
+			if ReplicateATM and not HasReplicated then
+				ReplicateATM.ModelStreamingMode = Enum.ModelStreamingMode.Persistent
+				HasReplicated, Model = true, ReplicateATM
+			end
+
+			if not Model or not HasReplicated then
+				return false, "Client Error: No replicate found"
+			end
+
+			if not Model:FindFirstChild("Light") then
+				task.spawn(Functions.LoadPlayerZone, LocalPlayer, Model:GetPivot().Position)
+
+				repeat task.wait() until Model:FindFirstChild("Light")
+
+				if not OldLightCF then
+					OldLightCF = Model:FindFirstChild("Light").CFrame
+				end
+			end
+
+			return true
+		end),
+
+        		GetRandomATM = (function(self)
+			local AvailableATMs = {}
+			for i,v in pairs(ATMs:GetChildren()) do
+				if v:IsA("Model") and v.Name == "ATM" then
+					table.insert(AvailableATMs, v)
+				end
+			end
+
+			return Functions:SelectRandom(AvailableATMs)
+		end),
+
+
+        		RenderPosition = (function(self, Position: Vector3, FollowBasePart, PartToFollow)
+			if not Functions:HasReplicated() then
+				Functions:StartReplication()
+			end
+
+			local _, ReplicationModel = Functions:HasReplicated()
+
+			if not ReplicationModel or not ReplicationModel:FindFirstChild("Light") then return "?" end
+
+			local ReplicationPart = ReplicationModel:FindFirstChild("Light")
+
+			LocalPlayer.ReplicationFocus = ReplicationPart
+			ReplicationPart.Transparency = 1
+			ReplicationPart.CanCollide = false
+
+			if FollowBasePart then
+				local FollowLoop = RunService.PreRender:Connect(function(self)
+					pcall(function(self)
+						ReplicationPart.Position = PartToFollow.Position
+						LocalPlayer.ReplicationFocus = ReplicationPart
+					end)
+				end)
+
+				task.spawn(function(self)
+					while FollowLoop.Connected do task.wait() end
+
+					ReplicationPart.CFrame = OldLightCF
+					ReplicationPart.Transparency = 0
+					LocalPlayer.ReplicationFocus = nil
+				end)
+
+				return true, FollowLoop
+			else
+				ReplicationPart.Position = Position
+
+				return true, ReplicationPart
+			end
+		end),
+
+				SetHookFor = (function(self, Remote, PropertyToHook, HookedFunc, ReturnOldFunction)
+			local RBXEvent = Remote and Remote[PropertyToHook]
+
+			if not RBXEvent then
+				return false, "Failed to find RBXEvent"
+			end
+
+			if typeof(HookedFunc) == "boolean" then
+				if not HookedFuncs[Remote] then
+					return false, "No old Remote found"
+				end
+
+				for _, Func in ipairs(GetConnections(RBXEvent)) do
+					if Func.Function then
+						hookfunction(Func.Function, HookedFuncs[Remote].Old)
+					end
+				end
+
+				return true
+			end
+
+			if typeof(HookedFunc) == "function" then
+				for _, Func in ipairs(GetConnections(RBXEvent)) do
+					if Func.Function then
+						HookedFuncs[Remote] = {
+							Old = clonefunction(Func.Function)
+						}
+						hookfunction(Func.Function, LPH_NO_UPVALUES(function(self, ...)
+							HookedFunc(...)
+							if ReturnOldFunction then
+								return HookedFuncs[Remote].Old(...)
+							end
+						end))
+					end
+				end
+				return true
+			end
+
+			return false, "Cannot hook RBXevent with "..typeof(HookedFunc)
+		end),
+
+SecureTP = (function(self, PositionOrPlayer, ManualTP)
+    local Position = PositionOrPlayer
+    if typeof(Position) == "Instance" and PositionOrPlayer:FindFirstChild("LastLocation") then
+        Position = PositionOrPlayer.LastLocation.Value
+    end
+
+    local PlayerVehicle = Functions:GetCurrentLocalPlayerCar()
+    if PlayerVehicle then
+        local DriverSeat
+
+        while not DriverSeat do
+            Functions:ClientTP(PlayerVehicle:GetPivot())
+            DriverSeat = PlayerVehicle:FindFirstChild("DriverSeat")
+            task.wait()
+        end
+
+        local StartSitTick = tick()
+        while not Functions:IsLocalPlayerSitting() and tick() - StartSitTick < 3 do
+            DriverSeat:Sit(Humanoid)
+            task.wait()
+        end
+
+        local NeedPosition = typeof(Position) == "Vector3" and Position or Vector3.new(Position.X, Position.Y, Position.Z)
+        Functions:LoadPlayerZone(NeedPosition, 5)
+
+        if Functions:IsLocalPlayerSitting() then
+            return PlayerVehicle:PivotTo((typeof(Position) == "Vector3" and CFrame.new(Position)) or Position)
+        else
+            Fluent:Notify({
+                Title = "Teleport",
+                Content = "Failed to TP. Method: Car",
+                Duration = 4
+            })
+        end
+    elseif not ManualTP then
+        return Functions:ClientTP(Position)
+    else
+        Fluent:Notify({
+            Title = "Disable TP Check",
+            Content = "Please have a vehicle spawned for SecureTP",
+            Duration = 4
+        })
+    end
+end),
+
+
+		StopRendering = (function(self)
+			if not Functions:HasReplicated() then
+				Functions:StartReplication()
+			end
+
+			local _, ReplicationModel = Functions:HasReplicated()
+
+			if not ReplicationModel or not ReplicationModel:FindFirstChild("Light") then return "?" end
+
+			local ReplicationPart = ReplicationModel:FindFirstChild("Light")
+
+			LocalPlayer.ReplicationFocus = nil
+
+			ReplicationPart.CanCollide = true
+
+			ReplicationPart.CFrame = OldLightCF or CFrame.new(0,0,0)
+			ReplicationPart.Transparency = 0
+		end),
+
+
+		GetRandomBountyVehicle = (function(self)
+			if #BountyVehicles:GetChildren() <= 0 then
+				return
+			end
+
+			return Functions:SelectRandom(BountyVehicles:GetChildren())
+		end),
+
+        		SelectRandom = (function(self, List)
+			return #List > 0 and List[math.random(1, #List)]
+		end),
+
+        		IsMod = (function(self, Player)
+			return Player and (Player:FindFirstChild("IsMod") or Player:FindFirstChild("IsStaff"))
+		end),
+
+		IsPRCMod = (function(self, Player)
+			return Player and (Player:FindFirstChild("IsGameMod") or Player:FindFirstChild("IsGameStaff"))
+		end),
+
+        		IsLocalPlayerSitting = (function(self, Humanoid)
+			local Humanoid = Humanoid or Character:FindFirstChildWhichIsA("Humanoid")
+
+			return (Humanoid and Humanoid.SeatPart and Humanoid.Sit) or false
+		end),
+
+		GetDrivenVehicle = (function(self)
+			if Functions:IsLocalPlayerSitting(Humanoid) and Humanoid.SeatPart.Name == "DriverSeat" then
+				return Humanoid.SeatPart.Parent
+			end
+
+			return false
+		end),
+
+		IsLocalPlayerInOwnVehicle = (function(self)
+			local PlayerVehicle = Functions:GetLocalPlayerCar()
+
+			return PlayerVehicle and Humanoid and Functions:IsLocalPlayerSitting(Humanoid) and Humanoid.SeatPart == PlayerVehicle["DriverSeat"]
+		end),
+
+		GetCurrentLocalPlayerCar = (function(self)
+			return Functions:GetDrivenVehicle() or Functions:GetLocalPlayerCar()
+		end),
+
+		RestartVehicle = (function(self)
+			return pcall(function()
+				LocalPlayer.PlayerGui.GameGui.VehicleGui["Vehicle Interface"].Drive.Enabled = false
+				task.wait()
+				LocalPlayer.PlayerGui.GameGui.VehicleGui["Vehicle Interface"].Drive.Enabled = true
+			end)
+		end),
+}
+
+
+
+
+
+
+
+
+
+
+	Vehicles.ChildAdded:Connect(function(Vehicle)
+		if Vehicle:IsA("Model") then
+			while not Vehicle:GetAttribute("Owner") do
+				task.wait()
+			end
+
+			if Vehicle:GetAttribute("Owner") == LocalPlayer.Name then
+				Vehicle.ModelStreamingMode = Enum.ModelStreamingMode.Persistent
+			end
+		end
+	end)
+
+	local VehicleData = {}
+	local StoreVehicleDefaults = function(Vehicle)
+		if not VehicleData[Vehicle] then
+			local Drive = require(Vehicle["Drive Controller"])
+			VehicleData[Vehicle] = {
+				Horsepower = Drive.Horsepower,
+				FinalDrive = Drive.FinalDrive,
+				RevAccel = Drive.RevAccel,
+				FAntiRoll = Drive.FAntiRoll,
+				RBrakeForce = Drive.RBrakeForce or 1,
+				FBrakeForce = Drive.FBrakeForce or 1,
+				PBrakeForce = Drive.PBrakeFrce,
+				SteerDecay = Drive.SteerDecay,
+				BrakeForce = Drive.BrakeForce
+			}
+		end
+	end
+
+	local ApplySpeedMultiplier = function(Vehicle)
+		local suc, err = pcall(function()
+			if Vehicle and Vehicle:FindFirstChild("Drive Controller") then
+				local SpeedMultiplier = _G.VehicleSpeedMultiplier
+
+				if not VehicleData[Vehicle] then
+					table.clear(VehicleData)
+					StoreVehicleDefaults(Vehicle)
+				end
+
+				local Drive = require(Vehicle["Drive Controller"])
+				local Defaults = VehicleData[Vehicle]
+
+				if not Defaults then return end 
+
+				local NewHorsepower = math.max(rawget(Defaults, "Horsepower") * SpeedMultiplier, 2000)
+
+				if NewHorsepower < 2160 and SpeedMultiplier > 1.5 then
+					NewHorsepower = rawget(Defaults, "Horsepower") * 1.7 * SpeedMultiplier
+				end
+
+				rawset(Drive, "Horsepower", (SpeedMultiplier == 1 and rawget(Defaults, "Horsepower") or NewHorsepower))
+				rawset(Drive, "FinalDrive", SpeedMultiplier > 1 and (rawget(Defaults, "FinalDrive") / math.sqrt(SpeedMultiplier)) or rawget(Defaults, "FinalDrive"))
+				rawset(Drive, "RevAccel", rawget(Defaults, "RevAccel") * SpeedMultiplier)
+				rawset(Drive, "FAntiRoll", rawget(Defaults, "FAntiRoll") * SpeedMultiplier)
+				rawset(Drive, "SteerDecay", rawget(Defaults, "SteerDecay") * SpeedMultiplier)
+			end
+		end)
+
+		if not suc then
+			return false, err
+		end
+
+		return true
+	end
+
+
+
+
+
+
+
+
+
+	_G.ArrestAuraDistance = 12
+
+	function CanArrestPlayer(TargetPlayer)
+		local HRP = TargetPlayer.Character and TargetPlayer.Character.PrimaryPart
+		if HRP and Functions:IsWanted(TargetPlayer) and Character:FindFirstChild("Handcuffs") then
+			local Distance = LocalPlayer:DistanceFromCharacter(HRP.Position)
+			return Distance < tonumber(_G.ArrestAuraDistance)
+		end
+	end
+
+    	_G.SpeedModify = false
+	_G.SpeedModifyValue = 16
+
+	task.spawn(function()
+		while true do
+			local Time = task.wait()
+			local MoveDirection = Humanoid.MoveDirection
+			if _G.SpeedModify and MoveDirection.Magnitude > 0 and not Functions:IsLocalPlayerSitting() then
+				local Speedin1sec = (1 / Time)
+				local Extra = MoveDirection * ((_G.SpeedModifyValue - Humanoid.WalkSpeed) / Speedin1sec)
+				HumanoidRootPart.CFrame = HumanoidRootPart.CFrame + Extra
+			end
+		end
+	end)
+
+	ArrestAura = function()
+		while _G.ArrestAura do
+			if Functions:IsAlive(Humanoid) and Character:FindFirstChild("Handcuffs") then
+				for _, TargetPlayer in ipairs(Players:GetPlayers()) do
+					if TargetPlayer == LocalPlayer or not CanArrestPlayer(TargetPlayer) then continue end
+
+					while CanArrestPlayer(TargetPlayer) and _G.ArrestAura do
+						local Response = UseHandcuffs:InvokeServer("Handcuff", TargetPlayer) -- Hacerle weld
+
+						if Response == "Success" then
+							local Arrested = UseHandcuffs:InvokeServer("Arrest", TargetPlayer) -- Mandarlo a prisión
+							local ArrestTick = tick()
+
+							while Arrested ~= nil and (tick() - ArrestTick) < 5 and Functions:IsWanted(TargetPlayer) do
+								Arrested = UseHandcuffs:InvokeServer("Arrest", TargetPlayer)
+							end
+
+							if Arrested ~= nil then
+								break
+							else
+								Fluent:Notify({
+									Title = "ERLCXploit",
+									Content = "Arrested "..TargetPlayer.Name.."!",
+									Duration = 4
+								})
+							end
+						elseif TargetPlayer:FindFirstChild("Detained") then
+							break -- Lo agarro otra persona
+						end
+					end
+				end
+			end
+			task.wait()
+		end
+	end
+
+    	local NeedHolds = {"StealBankMoney", "BlowBankVault", "StealCashRegisterMoney", "StealSafeMoney", "Arrest", "GrabDetain", "Heal", "FixTrafficLight", "JerryFill"}
+	local OldHoldsTimes, OldCharacterAdded, OldCharacterAdded2, OldThead = _G.ERXOldHoldsTimes or {}, nil
+	function InstaProxityPrompt()
+		if OldCharacterAdded then
+			OldCharacterAdded:Disconnect()
+			OldCharacterAdded = nil
+		end
+
+		local WhenNewChars = function(NewCharacter)
+			local InteractionsInfo
+
+			while not InteractionsInfo do
+				pcall(function()
+					InteractionsInfo = require(NewCharacter["Interaction Handler"]["InteractionActions"])
+				end)
+				task.wait(0.5)
+			end
+
+			if not OldHoldsTimes[NeedHolds[1]] then
+				for _, HoldType in ipairs(NeedHolds) do
+					OldHoldsTimes[HoldType] = InteractionsInfo[HoldType].HoldTime
+				end
+
+				_G.ERXOldHoldsTimes = OldHoldsTimes
+			end
+
+			if OldThead then
+				task.cancel(OldThead)
+				OldThead = nil
+			end
+
+			OldThead = task.spawn(function()
+				while task.wait(0.25) do
+					for _, HoldType in ipairs(NeedHolds) do
+						local NewTime = (_G.InstaProxityPrompt and 0) or OldHoldsTimes[HoldType]
+						InteractionsInfo[HoldType].HoldTime = NewTime
+					end
+				end
+			end)
+		end
+
+		task.spawn(WhenNewChars, Character)
+		OldCharacterAdded = LocalPlayer.CharacterAdded:Connect(function()
+			task.spawn(WhenNewChars)
+		end)
+	end
+
+
+
+
+
+
+
+
+
+    	local espCache = {}
+	function createEsp(player)
+		local Drawings = {}
+
+		local IsRightLevel = pcall(function() Instance.new("Player") end)
+
+		if not IsRightLevel then
+			setidentity(8)
+		end
+
+		Drawings.box = Drawing.new("Square")
+		Drawings.box.Thickness = 1
+		Drawings.box.Filled = false
+		Drawings.box.Color = Color3.new(1, 1, 1)
+		Drawings.box.Visible = false
+		Drawings.box.ZIndex = 2
+
+		Drawings.boxoutline = Drawing.new("Square")
+		Drawings.boxoutline.Thickness = 3
+		Drawings.boxoutline.Filled = false
+		Drawings.boxoutline.Color = Color3.new()
+		Drawings.boxoutline.Visible = false
+		Drawings.boxoutline.ZIndex = 1
+
+		Drawings.name = Drawing.new("Text")
+		Drawings.name.Center = true
+		Drawings.name.Outline = true
+		Drawings.name.OutlineColor = Color3.new(0, 0, 0)
+		Drawings.name.Color = Color3.new(1, 1, 1)
+		Drawings.name.Visible = false
+		Drawings.name.ZIndex = 3
+
+		espCache[player] = Drawings
+	end
+
+	function removeEsp(player)
+		if rawget(espCache, player) then
+			for _, drawing in pairs(espCache[player]) do
+				drawing:Remove()
+			end
+
+			espCache[player] = nil
+		end
+	end
+
+	local ESPTeamsEnabled = {}
+	local updateEsp = LPH_NO_VIRTUALIZE(function(Player, esp)
+		local Character = Player and Player.Character
+		local Humanoid = Character and Character:FindFirstChildWhichIsA("Humanoid")
+		if Humanoid and Player.Team and _G.ESPEnabled then
+			local PlayerIsModAndEnabled
+			if ESPTeamsEnabled["Moderators"] and (Functions:IsMod(Player) or Functions:IsPRCMod(Player)) then
+				PlayerIsModAndEnabled = true
+			elseif not ESPTeamsEnabled[Player.Team.Name] then
+				esp.box.Visible = false
+				esp.boxoutline.Visible = false
+				esp.name.Visible = false
+				return
+			end
+
+			local LastCFrame = Character:FindFirstChild("Head") and Character:GetModelCFrame()
+			local LastLocation = not LastCFrame and Player:FindFirstChild("LastLocation")
+
+			if LastLocation then
+				LastCFrame = CFrame.new(LastLocation.Value)
+			elseif not LastCFrame then
+				return
+			end
+
+			local Vector, onScreen = Camera:WorldToViewportPoint(LastCFrame.Position)
+
+			if onScreen and LocalPlayer.Character then
+				local Distance = (LastCFrame.Position - LocalPlayer.Character:GetPivot().Position).Magnitude
+
+				local viewportPoint = Vector2.new(Vector.X, Vector.Y)
+				local depth = Vector.Z
+
+				local scaleFactor = 1 / (depth * math.tan(math.rad(Camera.FieldOfView / 2)) * 2) * 1000
+				local width, height = 4 * scaleFactor, 5 * scaleFactor
+				local xPoint, yPoint = viewportPoint.X, viewportPoint.Y
+
+				esp.box.Size = Vector2.new(width, height)
+				esp.box.Position = Vector2.new(xPoint - width / 2, yPoint - height / 2)
+
+				esp.boxoutline.Size = esp.box.Size
+				esp.boxoutline.Position = esp.box.Position
+
+				local TextSize = math.max(16, height / 15)
+
+				esp.name.Position = Vector2.new(xPoint, yPoint - (height / 2) - (TextSize * 1.5))
+
+				local Extras, TeamName = "", string.upper(Player.Team.Name)
+				if _G.ESPViewHealth then
+					local Health = string.format("%.3f", Humanoid.Health)
+					Extras = Extras .. " | Health: " .. ((type(Health) == "string" and tonumber(Health)) or "0")
+				end
+
+				if _G.ESPViewDistance then
+					Extras = Extras .. " | Distance: " .. math.round(Distance)
+				end
+
+				if Functions:IsPRCMod(Player) and PlayerIsModAndEnabled then
+					TeamName = "PRC MOD"
+					esp.box.Color = Color3.new(1, 0, 0.5)
+				elseif Functions:IsMod(Player) and PlayerIsModAndEnabled then
+					TeamName = "MODERATOR"
+					esp.box.Color = Color3.new(0, 1, 0)
+				elseif Functions:IsWanted(Player) and _G.DifferenceWanted then
+					TeamName = "WANTED"
+					esp.box.Color = Color3.fromRGB(192, 121, 42)
+				elseif Functions:IsVisibleERXUser(Player) then
+					TeamName = "MINEBLOX USER"
+					esp.box.Color = Color3.fromRGB(192, 93, 116)
+				else
+					esp.box.Color = Player.Team.TeamColor.Color
+				end
+
+				esp.name.Size = TextSize
+				esp.name.Text = "Name: " .. Player.Name .. Extras .. " [".. TeamName .. "]"
+				esp.name.Color = esp.box.Color
+
+				esp.box.Visible = true
+				esp.boxoutline.Visible = true
+				esp.name.Visible = true
+
+				return
+			end
+		end
+
+		esp.box.Visible = false
+		esp.boxoutline.Visible = false
+		esp.name.Visible = false
+	end)
+
+	RunService:BindToRenderStep("PlayerESP", Enum.RenderPriority.Camera.Value, LPH_NO_VIRTUALIZE(function()
+		for player, drawings in pairs(espCache) do
+			if drawings and player ~= LocalPlayer then
+				updateEsp(player, drawings)
+			end
+		end
+	end))
+
+	local StaticWhitelist -- Table
+	local StaticResponse -- Code
+
+
+
+	for _, Player in ipairs(Players:GetPlayers()) do
+		task.spawn(createEsp, Player)
+	end
+
+	Players.PlayerAdded:Connect(function(Player)
+
+		task.spawn(function()
+			local Start = tick()
+
+			repeat task.wait() until not Player or not Player.Parent or Functions:IsPRCMod(Player) or tick() - Start > 15
+
+			if Player and Functions:IsPRCMod(Player) then
+				Fluent:Notify({
+					Title = "PRC Checker",
+					Content = "⚠ " .. Player.Name.. " Is a PRC Mod! Please be careful ⚠",
+					Duration = math.huge,
+				})
+			end
+		end)
+
+		createEsp(Player)
+	end)
+
+	Players.PlayerRemoving:Connect(removeEsp)
+
+
+
+    	_G.LocalNoclip = false
+
+	local NoclipParts = {"LowerTorso", "UpperTorso", "HumanoidRootPart"}
+
+	_G.AutoPickupMoney = false
+	_G.MoneyAuraSize = 13
+
+	local MoneyOverlap = OverlapParams.new()
+	MoneyOverlap.FilterType = Enum.RaycastFilterType.Exclude
+
+	RunService.Stepped:Connect(LPH_NO_VIRTUALIZE(function()
+		pcall(function()
+			for _, child in ipairs(Character:GetChildren()) do
+				if child:IsA("BasePart") and table.find(NoclipParts, child.Name) then
+					child.CanCollide = not _G.LocalNoclip
+				end
+			end
+
+			if HumanoidRootPart and _G.AutoPickupMoney then
+				local MoneyAuraSize = Vector3.new(_G.MoneyAuraSize, 10, _G.MoneyAuraSize)
+				local RootCFrame = HumanoidRootPart.CFrame
+
+				MoneyOverlap.FilterDescendantsInstances = {Character}
+
+				local AuraParts = WorkSpace:GetPartBoundsInBox(RootCFrame, MoneyAuraSize, MoneyOverlap)
+
+				for _, part in ipairs(AuraParts) do
+					if part.Name == "MoneyBill" then
+						firetouchinterest(part, HumanoidRootPart, 1)
+						task.wait()
+						firetouchinterest(part, HumanoidRootPart, 0)
+					end
+				end
+			end
+		end)
+	end))
+
+
+    local OldFuelConnection, OldHumanoidConnection
+	function ConnectSeatPartToHumanoid(Humanoid)
+		if OldHumanoidConnection then
+			OldHumanoidConnection:Disconnect()
+			OldHumanoidConnection = nil
+		end
+
+		local AnalyceSeat = function()
+			local Seat = Humanoid.SeatPart
+			if Seat and Seat.Name == "DriverSeat" and Seat.Parent then
+				local CurrentFuel = Seat.Parent:WaitForChild("Control_Values", 9e9):WaitForChild("CurrentFuel", 9e9)
+				if OldFuelConnection then
+					OldFuelConnection:Disconnect()
+					OldFuelConnection = nil
+				end
+
+				if _G.InfiniteFuel then
+					CurrentFuel.Value = 14
+				end
+
+				OldFuelConnection = CurrentFuel:GetPropertyChangedSignal("Value"):Connect(function()
+					if _G.InfiniteFuel and CurrentFuel.Value ~= 14 then
+						CurrentFuel.Value = 14
+					end
+				end)
+
+				_G.CurrentFuel = CurrentFuel
+			end
+		end
+
+		task.spawn(AnalyceSeat)
+		OldHumanoidConnection = Humanoid:GetPropertyChangedSignal("SeatPart"):Connect(AnalyceSeat)
+	end
+	ConnectSeatPartToHumanoid(Humanoid)
+	LocalPlayer.CharacterAdded:Connect(function(NewChar)
+		ConnectSeatPartToHumanoid(NewChar:WaitForChild("Humanoid", 9e9))
+	end)
+    
+
+
+    	function CarEarrape()
+
+		while _G.CarEarrape do
+			local PlayerCar = Functions:GetCurrentLocalPlayerCar()
+			if PlayerCar and Humanoid.SeatPart and Humanoid.Sit then
+				local DriftRemote = PlayerCar:FindFirstChild("Input_Events"):FindFirstChild("Drift")
+				if DriftRemote then
+					DriftRemote:FireServer(math.huge, math.huge)
+				end
+			end
+
+			task.wait()
+		end
+	end
+
+
+
+		_G.AutoApplyCarMods = false
+	_G.NoCarDamage = false
+	function NoCarDamage()
+		local MainVehicle
+
+		local function SetCollisions(CanTouch)
+			if MainVehicle and MainVehicle:FindFirstChild("Body") then
+				for _, Collision in ipairs(MainVehicle:GetDescendants()) do
+					if Collision.Name == "CollisionPart" and Collision:IsA("BasePart") then
+						Collision.CanTouch = CanTouch
+					end
+				end
+			end
+		end
+
+		while _G.NoCarDamage do
+			MainVehicle = Functions:GetCurrentLocalPlayerCar()
+			SetCollisions(false)
+			task.wait()
+		end
+
+		SetCollisions(true)
+	end
+	_G.PITHitbox = nil
+
+	function PITHitbox()
+
+		while _G.ExtendedPITHitbox and task.wait(0.1) do
+			local Vehicle = Functions:GetDrivenVehicle()
+			if not Vehicle or not Vehicle:FindFirstChild("Body") then
+				if _G.PITHitbox and typeof(_G.PITHitbox) == "Instance" then
+					_G.PITHitbox:Destroy()
+					_G.PITHitbox = nil
+				end
+				continue
+			end
+
+			local RAMBAR = Vehicle:FindFirstChild("RAMBAR", true)
+			local PITHitbox = _G.PITHitbox
+			if not RAMBAR or PITHitbox then
+				if RAMBAR and PITHitbox then
+					local length = _G.PITLength or 40
+					local width = _G.PITWidth or 15
+
+					local Weld = PITHitbox:FindFirstChild("WeldConstraint")
+					if not Weld then
+						Weld = Instance.new("WeldConstraint")
+						Weld.Part0 = PITHitbox
+						Weld.Part1 = RAMBAR
+						Weld.Parent = PITHitbox
+					end
+
+					Weld.Enabled = false
+
+					PITHitbox.Size = Vector3.new(width, 8, length)
+
+					local basePos = RAMBAR.Position
+					local forward = RAMBAR.CFrame.LookVector
+					local flatForward = Vector3.new(forward.X, 0, forward.Z).Unit
+
+					local offsetPosition = basePos + flatForward * (length / 2)
+					offsetPosition = Vector3.new(offsetPosition.X, basePos.Y, offsetPosition.Z)
+
+					PITHitbox.CFrame = CFrame.new(offsetPosition, offsetPosition + flatForward)
+
+					Weld.Enabled = true
+				end
+
+				continue
+			end
+
+			local ExtendedHitboxPit = Instance.new("Part")
+			ExtendedHitboxPit.Size = Vector3.new(
+				_G.PITWidth or 15,
+				8,
+				_G.PITLength or 40
+			)
+
+			ExtendedHitboxPit.CanCollide = false
+			ExtendedHitboxPit.Massless = true
+			ExtendedHitboxPit.Transparency = _G.VisualizeHitbox and 0.8 or 1
+			ExtendedHitboxPit.Anchored = false
+
+			ExtendedHitboxPit.Color = Color3.fromRGB(255, 0, 0)
+			ExtendedHitboxPit.Material = Enum.Material.Neon
+
+			ExtendedHitboxPit.Parent = Vehicle.Body
+			ExtendedHitboxPit.Name = "PITHitbox"
+
+			local basePos = RAMBAR.Position
+			local forward = RAMBAR.CFrame.LookVector
+			local flatForward = Vector3.new(forward.X, 0, forward.Z).Unit
+
+			local offsetPosition = basePos + flatForward * 20
+			offsetPosition = Vector3.new(offsetPosition.X, basePos.Y, offsetPosition.Z)
+
+			ExtendedHitboxPit.CFrame = CFrame.new(offsetPosition, offsetPosition + flatForward)
+
+			local weld = Instance.new("WeldConstraint")
+			weld.Part0 = ExtendedHitboxPit
+			weld.Part1 = RAMBAR
+			weld.Parent = ExtendedHitboxPit
+
+			local TouchedParts = {}
+
+			if not _G.PitConn then
+				_G.PitConn = RunService.Heartbeat:Connect(function()
+					local Vehicle = Functions:GetDrivenVehicle()
+					if not Vehicle then return end
+
+					local RAMBAR = Vehicle:FindFirstChild("RAMBAR", true)
+					if not RAMBAR then return end
+
+					local touchingParts = workspace:GetPartsInPart(ExtendedHitboxPit)
+					if not touchingParts then return end
+
+					for _, part in ipairs(touchingParts) do
+						if part:IsA("BasePart") and (part.Name == "RightBumper" or part.Name == "LeftBumper") then
+							if not TouchedParts[part] then
+								TouchedParts[part] = true
+								firetouchinterest(part, RAMBAR, 0)
+								task.delay(0.1, function()
+									firetouchinterest(part, RAMBAR, 1)
+									TouchedParts[part] = nil
+								end)
+							end
+						end
+					end
+				end)
+			end
+
+			_G.PITHitbox = ExtendedHitboxPit
+		end
+
+		if _G.PITHitbox and typeof(_G.PITHitbox) == "Instance" then
+			_G.PITHitbox:Destroy()
+			_G.PITHitbox = nil
+		end
+
+		if _G.PitConn then
+			_G.PitConn:Disconnect()
+			_G.PitConn = nil
+		end
+	end
+
+
+	InfiniteStamina = (function()
+		while _G.InfiniteStamina do
+			local FillStaminaFunc
+			for _, v in ipairs(GetConnections(FillStaminaRemote.OnClientEvent)) do
+				if v and v.Function then
+					FillStaminaFunc = v.Function
+					setfenv(FillStaminaFunc, {debug = {
+						info = function()
+							return false
+						end,
+					}})
+				end
+			end
+
+			local StartTick = tick()
+			while FillStaminaFunc and (tick() - StartTick) < 2 do
+				task.spawn(pcall, FillStaminaFunc)
+				task.wait()
+			end
+
+			if not FillStaminaFunc then
+				task.wait(0.5)
+			end
+		end
+	end)
+
+
+	_G.NoCarDamage = false
+	function NoCarDamage()
+		local MainVehicle
+
+		local function SetCollisions(CanTouch)
+			if MainVehicle and MainVehicle:FindFirstChild("Body") then
+				for _, Collision in ipairs(MainVehicle:GetDescendants()) do
+					if Collision.Name == "CollisionPart" and Collision:IsA("BasePart") then
+						Collision.CanTouch = CanTouch
+					end
+				end
+			end
+		end
+
+		while _G.NoCarDamage do
+			MainVehicle = Functions:GetCurrentLocalPlayerCar()
+			SetCollisions(false)
+			task.wait()
+		end
+
+		SetCollisions(true)
+	end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Tabs.Main:AddToggle("InfStam", {
+    Title = "Infinite Stamina", 
+    Default = false,
+    Callback = function(Value)
+			_G.InfiniteStamina = Value
+			InfiniteStamina()
+    end,
+})
+
+
+
+_G.NoFallDamage = false
+
+do
+    local NoFallMeta = table.clone(OriginalMETA)
+    local OldNamecall = OriginalMETA.__namecall
+
+    NoFallMeta.__namecall = newcclosure(function(...)
+        if not checkcaller() and getnamecallmethod() == "FireServer" then
+            local Self = ({...})[1]
+            if Self == EnviromentRemote and _G.NoFallDamage then
+                return
+            end
+        end
+        return OldNamecall(...)
+    end)
+    Setrawmetatable(EnviromentRemote, NoFallMeta)
+end
+
+
+Tabs.Main:AddToggle("NoFallDamage", {
+    Title = "No Fall Damage", 
+    Default = false,
+    Callback = function(Value)
+        _G.NoFallDamage = Value
+    end,
+})
+
+
+
+
+Tabs.Main:AddToggle("InfStam", {
+    Title = "Instant Respawn", 
+    Default = false,
+    Callback = function(Value)
+			_G.InstantRespawn = Value
+    end,
+})
+
+
+local OldAntiArrestConnect
+Tabs.Main:AddToggle("InfStam", {
+    Title = "Anti Arrest", 
+    Default = false,
+    Callback = function(Value)
+				if OldAntiArrestConnect then
+				OldAntiArrestConnect:Disconnect()
+				OldAntiArrestConnect = nil
+			end
+
+			if Value then
+				if LocalPlayer:FindFirstChild("In_Handcuffs") or LocalPlayer:FindFirstChild("In_Handcuffs") then
+					Functions:Respawn()
+				end
+				OldAntiArrestConnect = LocalPlayer.ChildAdded:Connect(function(Child)
+					if Child.Name == "In_Handcuffs" or Child.Name == "Detained" then
+						Functions:Respawn()
+					end
+				end)
+			end
+    end,
+})
+
+
+local OtherSection = Tabs.Main:AddSection("Other")
+
+Tabs.Main:AddToggle("InfStam", {
+    Title = "Arrest Aura", 
+    Default = false,
+    Callback = function(Value)
+			_G.ArrestAura = Value
+			ArrestAura()
+    end,
+})
+
+
+	LocalPlayer.CharacterAdded:Connect(function(NewChar)
+		local Humanoid = NewChar:WaitForChild("Humanoid", 9e9)
+		Humanoid.HealthChanged:Connect(function(NewHealth)
+			if _G.InstantRespawn and NewHealth < 0.11 then
+				Functions:Respawn()
+			end
+		end)
+	end)
+
+
+    Tabs.Main:AddButton({
+    Title = "Respawn Now",
+    Callback = Functions.Respawn
+})
+
+
+
+
+
+
+
+
+
+
+
+
+Tabs.LocalPlayer:AddToggle("InfStam", {
+    Title = "Walk speed", 
+    Default = false,
+    Callback = function(Value)
+			_G.SpeedModify = Value
+    end,
+})
+
+
+local WalkSpeedToggle
+Tabs.LocalPlayer:AddSlider("Slider", {
+    Title = "Walkspeed",
+    Default = 1,
+    Min = 16,
+    Max = 60,
+    Rounding = 1,
+    Callback = function(Value)
+			_G.SpeedModifyValue = tonumber(Value)
+    end
+})
+
+
+local OldNoclipConnect
+Tabs.LocalPlayer:AddToggle("InfStam", {
+    Title = "Noclip", 
+    Default = false,
+    Callback = function(Value)
+		_G.LocalNoclip = Value
+    end,
+})
+
+	local OldJumpRequestConnect
+Tabs.LocalPlayer:AddToggle("InfStam", {
+    Title = "Infinite Jump", 
+    Default = false,
+    Callback = function(Value)
+			if OldJumpRequestConnect then
+				OldJumpRequestConnect:Disconnect()
+				OldJumpRequestConnect = nil
+			end
+
+			if Value then
+				OldJumpRequestConnect = UserInputService.JumpRequest:Connect(function()
+					Humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
+				end)
+			end
+    end,
+})
+
+
+local OtherSection = Tabs.LocalPlayer:AddSection("Other")
+
+Tabs.LocalPlayer:AddToggle("InfStam", {
+    Title = "Money Aura", 
+    Default = false,
+    Callback = function(Value)
+			_G.AutoPickupMoney = Value
+    end,
+})
+
+local WalkSpeedToggle
+Tabs.LocalPlayer:AddSlider("Slider", {
+    Title = "Money Aura Distance",
+    Default = 13,
+    Min = 1,
+    Max = 13,
+    Rounding = 1,
+    Callback = function(Value)
+			_G.MoneyAuraSize = tonumber(Value)
+    end
+})
+
+
+Tabs.LocalPlayer:AddButton({
+    Title = "Get Basketball",
+    Callback = function()
+			local RandomBasketball, ErrorMessage
+
+			if not Functions:IsAlive(Humanoid) or not HumanoidRootPart then 
+				ErrorMessage = "You need to be alive to use this!"
+			end
+
+			if not ErrorMessage and #BasketBalls:GetChildren() <= 0 then
+				ErrorMessage = "No basketballs found"
+			end
+
+			RandomBasketball = not ErrorMessage and Functions:SelectRandom(BasketBalls:GetChildren())
+
+			if RandomBasketball then
+				firetouchinterest(RandomBasketball, HumanoidRootPart, 1)
+				task.wait()
+				firetouchinterest(RandomBasketball, HumanoidRootPart, 0)
+
+				return
+			end
+
+			Fluent:Notify({
+				Title = "Basketball Giver",
+				Content = "ERROR: " .. (ErrorMessage or "Unknown Error occurred"),
+				Duration = 5,
+			})
+    end
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Tabs.Visuals:AddToggle("InfStam", {
+    Title = "Instant Interact", 
+    Default = false,
+    Callback = function(Value)
+			_G.InstaProxityPrompt = Value
+			InstaProxityPrompt()
+    end,
+})
+
+
+local FreecamLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/displayname012/erlc/refs/heads/main/freecam.lua"))()
+Tabs.Visuals:AddToggle("InfStam", {
+    Title = "Freecam", 
+    Default = false,
+    Callback = function(Value)
+			_G.Freecam = Value
+
+			if Value and FreecamLib:IsEnabled() then
+				task.spawn(function()
+					FreecamLib:ToggleFreecam()
+				end)
+				return
+			end
+
+			if Value then
+				task.spawn(function()
+					FreecamLib:ToggleFreecam()
+				end)
+
+				task.spawn(pcall, function()
+					HumanoidRootPart.Anchored = true
+					while _G.Freecam and task.wait() do
+						task.spawn(function()
+							Functions:RenderPosition(Camera.CFrame.Position)
+						end)
+					end
+
+					task.spawn(function()
+						Functions:StopRendering()
+					end)
+					FreecamLib:ToggleFreecam()
+					task.delay(1, function()
+						HumanoidRootPart.Anchored = false
+					end)
+				end)
+			end
+    end,
+})
+
+
+local WeatherSection = Tabs.Visuals:AddSection("Weather")
+
+
+	_G.SelectedWeather = "Snow"
+	_G.ChangeWorldTime = false
+	_G.ClockTime = 12
+
+local WeatherDropdown = Tabs.Visuals:AddDropdown("Dropdown", {
+    Title = "Select Weather",
+    Values = (function()
+			local WeatherTypes = LocalPlayer:WaitForChild("PlayerScripts"):WaitForChild("Weather", 9e9):WaitForChild("WeatherTypes", 9e9)
+			local names = {}
+			for _, v in ipairs(WeatherTypes:GetChildren()) do
+				table.insert(names, v.Name)
+			end
+			return names
+		end)(),
+    Multi = false,
+    Default = 1,
+})
+
+WeatherDropdown:OnChanged(function(Value)
+	_G.SelectedWeather = Value
+end)
+
+
+    	local ChangeWeatherConnection
+	task.spawn(function()
+		for _, Func in ipairs(GetConnections(ChangeWeather.OnClientEvent)) do
+			if Func.Function then
+				ChangeWeatherConnection = Func.Function
+			end
+		end
+	end)
+
+    Tabs.Visuals:AddButton({
+    Title = "Change Weather",
+    Callback = function()
+			if _G.SelectedWeather and ChangeWeatherConnection then
+				ChangeWeatherConnection(_G.SelectedWeather)
+			end
+    end
+})
+
+local WeatherSection = Tabs.Visuals:AddSection("Time")
+Tabs.Visuals:AddSlider("Slider", {
+    Title = "World Time",
+    Default = 12,
+    Min = 0,
+    Max = 23,
+    Rounding = 1,
+    Callback = function(Value)
+			_G.ClockTime = tonumber(Value)
+			if _G.ChangeWorldTime then
+				Lighting.ClockTime = _G.ClockTime
+			end
+    end
+})
+
+Tabs.Visuals:AddToggle("InfStam", {
+    Title = "Time Changer", 
+    Default = false,
+    Callback = function(Value)
+			_G.ChangeWorldTime = Value
+
+			if TimeConnection then
+				TimeConnection:Disconnect()
+				TimeConnection = nil
+				return
+			end
+
+			if Value then
+				Lighting.ClockTime = _G.ClockTime
+				TimeConnection = Lighting:GetPropertyChangedSignal("ClockTime"):Connect(function()
+					if Lighting.ClockTime ~= _G.ClockTime then
+						Lighting.ClockTime = _G.ClockTime
+					end
+				end)
+			end
+    end,
+})
+
+
+
+local WeatherSection = Tabs.Visuals:AddSection("Fake Chat")
+	_G.FakeChatNameInput = ""
+	_G.FakeChatInput = ""
+
+Tabs.Visuals:AddInput("Input", {
+    Title = "Player Name",
+    Placeholder = "Noobman1234",
+    Numeric = false, -- Only allows numbers
+    Finished = false, -- Only calls callback when you press enter
+    Callback = function(Value)
+			_G.FakeChatNameInput = Value
+    end
+})
+
+Tabs.Visuals:AddInput("Input", {
+    Title = "Fake Chat Message",
+    Placeholder = "Mineblox on top!",
+    Numeric = false, -- Only allows numbers
+    Finished = false, -- Only calls callback when you press enter
+    Callback = function(Value)
+			_G.FakeChatInput = Value
+    end
+})
+
+Tabs.Visuals:AddButton({
+    Title = "Send Fake Chat",
+    Callback = function()
+			local inputName, foundPlayer = _G.FakeChatNameInput, nil
+
+			if not inputName or inputName == "" then return end
+
+			for _, player in ipairs(Players:GetPlayers()) do
+				if player ~= LocalPlayer then
+					if string.find(string.lower(player.Name), inputName:lower(), 1, true) or 
+						string.find(string.lower(player.DisplayName), inputName:lower(), 1, true) then
+						foundPlayer = player
+						break
+					end
+				end
+			end
+
+			if inputName:lower() == "me" then
+				foundPlayer = LocalPlayer
+			end
+
+			if foundPlayer and foundPlayer.Character then
+				ChatService:Chat(foundPlayer.Character, _G.FakeChatInput, Enum.ChatColor.White)
+			end
+    end
+})
+
+
+
+
+
+
+local WeatherSection = Tabs.Visuals:AddSection("ESP")
+
+Tabs.Visuals:AddToggle("MyToggle", {
+    Title = "Enable ESP", 
+    Default = false,
+    Callback = function(Value)
+			_G.ESPEnabled = Value
+    end 
+})
+
+
+
+local ESPTeams = Tabs.Visuals:AddDropdown("ESPTeams", {
+    Title = "ESP Teams",
+    Values = (function()
+        local TeamsNames = {}
+
+        for _, v in ipairs(Teams:GetTeams()) do
+            table.insert(TeamsNames, v.Name)
+        end
+
+        table.insert(TeamsNames, "Moderators")
+        return TeamsNames
+    end)(),
+    Multi = true,
+    Default = {"Civilian"},
+
+    Callback = function(Value)
+        -- 🔹 Convert MultiDropdown dictionary → array
+        local SelectedTeams = {}
+
+        for TeamName, Enabled in next, Value do
+            if Enabled then
+                table.insert(SelectedTeams, TeamName)
+            end
+        end
+
+        -- 🔹 YOUR REQUIRED CALLBACK LOGIC
+        table.clear(ESPTeamsEnabled)
+
+        for i, TeamName in pairs(SelectedTeams) do
+            ESPTeamsEnabled[TeamName] = true
+        end
+    end
+})
+
+
+
+local ESPOptions = Tabs.Visuals:AddDropdown("ESPOptions", {
+    Title = "ESP Settings",
+    Values = {"View Health", "View Distance", "Difference Wanted"},
+    Multi = true,
+    Default = {"View Distance"},
+})
+
+ESPOptions:OnChanged(function(Value)
+    _G.ESPViewHealth = Value["View Health"] == true
+    _G.ESPViewDistance = Value["View Distance"] == true
+    _G.DifferenceWanted = Value["Difference Wanted"] == true
+end)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Tabs.VehicleMods:AddToggle("MyToggle", {
+    Title = "Infinite Fuel", 
+    Default = false,
+    Callback = function(Value)
+			_G.InfiniteFuel = Value
+			if _G.CurrentFuel then
+				_G.CurrentFuel.Value = 14
+			end
+    end 
+})
+
+
+Tabs.VehicleMods:AddToggle("MyToggle", {
+    Title = "Earrape", 
+    Default = false,
+    Callback = function(Value)
+			_G.CarEarrape = Value
+			CarEarrape()
+    end 
+})
+
+
+
+
+--// SERVICES
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local UserInputService = game:GetService("UserInputService")
+
+local LocalPlayer = Players.LocalPlayer
+
+--// STATE
+local velocityEnabled = false
+local velocityMult = 0.025 -- acceleration
+local brakeMult = 0.15     -- brake force
+local STOP_SPEED = 1      -- studs/sec threshold to allow reverse
+
+
+local Section = Tabs.VehicleMods:AddSection("Vehicle Speed")
+--// UI
+Tabs.VehicleMods:AddToggle("SpeedToggle", {
+    Title = "Speed Multiplier",
+    Default = false,
+    Callback = function(Value)
+        velocityEnabled = Value
+    end
+})
+
+Tabs.VehicleMods:AddSlider("SpeedMultiplier", {
+    Title = "Acceleration",
+    Default = 25,
+    Min = 1,
+    Max = 50,
+    Rounding = 1,
+    Callback = function(Value)
+        velocityMult = Value / 1000
+    end
+})
+
+Tabs.VehicleMods:AddSlider("BrakeMultiplier", {
+    Title = "Brake Strength",
+    Default = 150,
+    Min = 0,
+    Max = 300,
+    Rounding = 1,
+    Callback = function(Value)
+        brakeMult = Value / 1000
+    end
+})
+
+--// VEHICLE LOGIC
+RunService.RenderStepped:Connect(function()
+    if not velocityEnabled then return end
+
+    local Character = LocalPlayer.Character
+    if not Character then return end
+
+    local Humanoid = Character:FindFirstChildWhichIsA("Humanoid")
+    if not Humanoid then return end
+
+    local Seat = Humanoid.SeatPart
+    if not Seat or not Seat:IsA("VehicleSeat") then return end
+
+    local velocity = Seat.AssemblyLinearVelocity
+    local speed = Vector3.new(velocity.X, 0, velocity.Z).Magnitude
+    local throttle = Seat.Throttle
+
+    -- FORWARD ACCELERATION
+    if throttle > 0 then
+        Seat.AssemblyLinearVelocity *= Vector3.new(
+            1 + velocityMult,
+            1,
+            1 + velocityMult
+        )
+        return
+    end
+
+    -- BRAKE WHEN MOVING FORWARD
+    if throttle < 0 and speed > STOP_SPEED then
+        Seat.AssemblyLinearVelocity *= Vector3.new(
+            math.max(0, 1 - brakeMult),
+            1,
+            math.max(0, 1 - brakeMult)
+        )
+        return
+    end
+
+    -- REVERSE ACCELERATION (ONLY WHEN STOPPED)
+    if throttle < 0 and speed <= STOP_SPEED then
+        Seat.AssemblyLinearVelocity *= Vector3.new(
+            1 + velocityMult,
+            1,
+            1 + velocityMult
+        )
+    end
+end)
+
+--// FULL STOP (P)
+UserInputService.InputBegan:Connect(function(input, gpe)
+    if gpe then return end
+    if input.KeyCode ~= Enum.KeyCode.P then return end
+    if not velocityEnabled then return end
+
+    local Character = LocalPlayer.Character
+    if not Character then return end
+
+    local Humanoid = Character:FindFirstChildWhichIsA("Humanoid")
+    if not Humanoid then return end
+
+    local Seat = Humanoid.SeatPart
+    if not Seat or not Seat:IsA("VehicleSeat") then return end
+
+    Seat.AssemblyLinearVelocity = Vector3.zero
+    Seat.AssemblyAngularVelocity = Vector3.zero
+end)
+
+
+
+
+
+
+
+
+
+local Section = Tabs.VehicleMods:AddSection("Vehicle Fly")
+_G.VFly = false
+_G.VFlySpeed = 0
+
+Tabs.VehicleMods:AddSlider("Slider", {
+    Title = "Vehicle Fly Speed",
+    Default = 50,
+    Min = 1,
+    Max = 200,
+    Rounding = 1,
+    Callback = function(NumberValue)
+        _G.VFlySpeed = tonumber(NumberValue) * 10
+    end
+})
+
+Tabs.VehicleMods:AddToggle("MyToggle", {
+    Title = "Vehicle Fly",
+    Default = false,
+    Callback = function(Value)
+        _G.VFly = Value
+        -- Run the fly logic in a coroutine so it doesn't block
+        coroutine.wrap(function()
+            while _G.VFly do
+                local success, err = pcall(function()
+                    -- Ensure the player is seated in a vehicle
+                    if Humanoid.Sit and Humanoid.SeatPart and Humanoid.SeatPart.Parent:FindFirstChild('Body') then
+                        local collisionPart = Humanoid.SeatPart.Parent.Body:FindFirstChild('CollisionPart')
+                        if not collisionPart then return end
+
+                        local gyro = Instance.new("BodyGyro")
+                        gyro.Parent = collisionPart
+                        gyro.CFrame = Camera.CFrame
+                        gyro.MaxTorque = Vector3.new(9e9, 9e9, 9e9)
+                        gyro.P = 9e4
+
+                        local vel = Instance.new("BodyVelocity")
+                        vel.Parent = collisionPart
+                        vel.MaxForce = Vector3.new(9e9, 9e9, 9e9)
+                        vel.P = 9e6
+                        vel.Velocity = Vector3.new(0, 0, 0)
+
+                        while _G.VFly and Humanoid.Sit do
+                            local toset = Vector3.new(0, 0, 0)
+                            if _G.VFlySpeed >= 2 then
+                                if UserInputService:IsKeyDown(Enum.KeyCode.W) then
+                                    toset = toset + Camera.CFrame.LookVector * _G.VFlySpeed
+                                end
+                                if UserInputService:IsKeyDown(Enum.KeyCode.S) then
+                                    toset = toset + Camera.CFrame.LookVector * -_G.VFlySpeed
+                                end
+                                if UserInputService:IsKeyDown(Enum.KeyCode.A) then
+                                    toset = toset + Camera.CFrame.RightVector * -_G.VFlySpeed
+                                end
+                                if UserInputService:IsKeyDown(Enum.KeyCode.D) then
+                                    toset = toset + Camera.CFrame.RightVector * _G.VFlySpeed
+                                end
+                            end
+                            vel.Velocity = toset
+                            gyro.CFrame = Camera.CFrame
+                            task.wait()
+                        end
+
+                        vel:Destroy()
+                        gyro:Destroy()
+                    end
+                end)
+                if not success then
+                    warn("Vehicle Fly Error: ", err)
+                end
+                task.wait(0.1)
+            end
+        end)()
+    end
+})
+
+
+
+
+local Section = Tabs.VehicleMods:AddSection("Other")
+
+Tabs.VehicleMods:AddToggle("MyToggle", {
+    Title = "Vehicle Noclip",
+    Default = false,
+    Callback = function(Value)
+					_G.VNoclip = Value
+			while _G.VNoclip do
+				for _,Vehicle in ipairs(Vehicles:GetChildren()) do
+					if Vehicle:IsA("Model") and Vehicle ~= Functions:GetCurrentLocalPlayerCar() then
+						for i,v in pairs(Vehicle:GetDescendants()) do
+							if v:IsA("BasePart") then
+								if v.CanCollide then
+									v:SetAttribute("WasCollidable", true)
+								end
+								v.CanCollide = false
+							end
+						end
+					end
+				end
+				task.wait(0.5)
+			end
+
+			for i,v in pairs(Vehicles:GetDescendants()) do
+				if v:IsA("BasePart") and v:GetAttribute("WasCollidable") then
+					v.CanCollide = true
+					v:GetAttribute("WasCollidable", nil)
+				end
+			end
+    end
+})
+
+
+Tabs.VehicleMods:AddToggle("MyToggle", {
+    Title = "Anti Stop Sticks",
+    Default = false,
+    Callback = function(Value)
+					_G.AntiStopSticks = Value
+			for _, StopStick in ipairs(Deployables:GetChildren()) do
+				if StopStick:IsA("BasePart") and StopStick.Name == "Stop Stick" then
+					StopStick.CanTouch = not Value
+				end
+			end
+    end
+})
+
+	Deployables.ChildAdded:Connect(function(Object)
+		if Object:IsA("BasePart") and Object.Name == "Stop Stick" and _G.AntiStopSticks then
+			Object.CanTouch = false 
+		end
+	end)
+
+
+	Tabs.VehicleMods:AddToggle("MyToggle", {
+    Title = "No Collision",
+    Default = false,
+    Callback = function(Value)
+			_G.NoCarDamage = Value
+			NoCarDamage()
+    end
+})
+
+Tabs.VehicleMods:AddButton({
+    Title = "Open Modshop",
+    Callback = function()
+			if Functions:IsAlive(Humanoid) and HumanoidRootPart and Humanoid then
+				local PlayerCar = Functions:GetCurrentLocalPlayerCar()
+
+				if not PlayerCar or not PlayerCar:FindFirstChild("DriverSeat") then
+					Fluent:Notify({
+						Title = "ModShop",
+						Content = "No vehicle found/Not streamed",
+						Duration = 5,
+					})
+					return
+				end
+
+				if not Functions:IsLocalPlayerSitting() then
+					PlayerCar.DriverSeat:Sit(Humanoid)
+					task.wait(Functions:GetPing() + 0.5)
+				end
+
+				while not ModShop:FindFirstChild("HitParts") or not ModShop.HitParts:FindFirstChild("Touch1") do
+					task.spawn(Functions.LoadPlayerZone, LocalPlayer, Vector3.new(-748, 23, 215))
+					task.wait(0.1)
+				end
+
+				firetouchinterest(ModShop.HitParts.Touch1, PlayerCar.DriverSeat, 1)
+				firetouchinterest(ModShop.HitParts.Touch1, PlayerCar.DriverSeat, 0)
+			end
+    end
+})
+
+
+Tabs.VehicleMods:AddButton({
+    Title = "Unstuck Vehicle",
+    Callback = function()
+			if Functions:IsAlive(Humanoid) then
+				local PlayerCar = Functions:GetDrivenVehicle()
+
+				if not PlayerCar then
+					return Fluent:Notify({
+						Title = "FixCar",
+						Content = "No vehicle found",
+						Duration = 5,
+					})
+				end
+
+				PlayerCar:PivotTo(PlayerCar:GetPivot() * CFrame.new(5, 30, 0))
+			end
+    end
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	local OldRecoils = {}
+
+	--_G.MakeAutomatic = false
+	_G.SilentAim = false
+	_G.Wallbang = false
+
+	local GetClosestPlayerToMouse = LPH_NO_VIRTUALIZE(function()
+		local ClosestPlayer = nil
+		local ClosestDistance = math.huge
+		local MousePos = Vector2.new(Mouse.X, Mouse.Y)
+
+		for _, Player in ipairs(Players:GetPlayers()) do
+			if not Character or not Player.Character or 
+				not Player.Character:FindFirstChild("HumanoidRootPart") or 
+				not Player.Character:FindFirstChild("Head") or
+				Player == LocalPlayer or not Functions:CanKillPlayer(Player) then
+				continue
+			end
+
+			local ScreenPos, OnScreen = Camera:WorldToScreenPoint(Player.Character.HumanoidRootPart.Position)
+			if ScreenPos and OnScreen then
+				local Distance = (MousePos - Vector2.new(ScreenPos.X, ScreenPos.Y)).Magnitude
+				if Distance < ClosestDistance then
+					ClosestDistance = Distance
+					ClosestPlayer = Player
+				end
+			end
+		end
+
+		return ClosestPlayer
+	end)
+
+		local OldFireRates, OldReloadTimes, OldWeaponsModules = {}, {}, {}
+
+
+
+
+
+Tabs.GunMods:AddToggle("MyToggle", {
+    Title = "Firerate Modifier",
+    Default = false,
+    Callback = function(Value)
+			for _,v in ipairs(ReplicatedStorage:WaitForChild("Shared", 9e9).WeaponStats:GetChildren()) do
+				local WeaponModule = OldWeaponsModules[v] or require(v)
+				OldWeaponsModules[v] = WeaponModule
+
+				if not OldFireRates[v.Name] then
+					OldFireRates[v.Name] = rawget(WeaponModule, "FireRate")
+				elseif Value then
+					rawset(WeaponModule, "FireRate", 0.001)
+				else
+					rawset(WeaponModule, "FireRate", OldFireRates[v.Name])
+				end
+			end
+    end
+})
+
+
+Tabs.GunMods:AddToggle("MyToggle", {
+    Title = "Instant Reload",
+    Default = false,
+    Callback = function(Value)
+			for _,v in ipairs(ReplicatedStorage:WaitForChild("Shared", 9e9).WeaponStats:GetChildren()) do
+				local WeaponModule = OldWeaponsModules[v] or require(v)
+				OldWeaponsModules[v] = WeaponModule
+
+				if not OldReloadTimes[v.Name] then
+					OldReloadTimes[v.Name] = rawget(WeaponModule, "ReloadSpeed")
+				elseif Value then
+					rawset(WeaponModule, "ReloadSpeed", 0.001)
+				else
+					rawset(WeaponModule, "ReloadSpeed", OldReloadTimes[v.Name])
+				end
+			end
+    end
+})
+
+	task.spawn(function()
+	Tabs.Aimbot:AddToggle("MyToggle", {
+    Title = "Silent Aim",
+    Default = false,
+    Callback = function(Value)
+				_G.SilentAim = Value
+    end
+})
+		local OldWeaponSStats = {}
+	Tabs.Aimbot:AddToggle("MyToggle", {
+    Title = "No Recoil",
+    Default = false,
+    Callback = function(Value)
+				for _,v in ipairs(ReplicatedStorage:WaitForChild("Shared", 9e9).WeaponStats:GetChildren()) do
+					local WeaponModule = OldWeaponSStats[v] or require(v)
+					OldWeaponSStats[v] = WeaponModule
+
+					if not OldRecoils[v.Name] then
+						OldRecoils[v.Name] = {}
+					end
+
+					if Value then
+						if not OldRecoils[v.Name]["CameraKickMin"] then
+							OldRecoils[v.Name]["CameraKickMin"] = WeaponModule["CameraKickMin"]
+							OldRecoils[v.Name]["CameraKickMax"] = WeaponModule["CameraKickMax"]
+						end
+
+						rawset(WeaponModule, "CameraKickMin", Vector3.zero)
+						rawset(WeaponModule, "CameraKickMax", Vector3.zero)
+					elseif OldRecoils[v.Name]["CameraKickMin"] then
+						rawset(WeaponModule, "CameraKickMin", OldRecoils[v.Name]["CameraKickMin"])
+						rawset(WeaponModule, "CameraKickMax", OldRecoils[v.Name]["CameraKickMax"])
+					end
+				end
+    end
+})
+
+	Tabs.Aimbot:AddToggle("MyToggle", {
+    Title = "Wallbang",
+    Default = false,
+    Callback = function(Value)
+				_G.Wallbang = Value
+    end
+})
+
+		local GenerateFakeRaycastResult = function(Origen, Target)
+			--[[local RandomHeadPos = Vector3.new(math.random(1, 100)/1000, math.random(1, 100)/1000, math.random(1, 100)/1000)
+			return {
+				Instance = Target,
+				Position = Target.Position + RandomHeadPos,
+				Material = Target.Material,
+				Distance = (Origen.Position - (Target.Position + RandomHeadPos)).Magnitude,
+				Normal = Vector3.new(1, 0, 0)
+			}]]
+			local NewParams = RaycastParams.new()
+			NewParams.FilterType = Enum.RaycastFilterType.Exclude
+			NewParams.FilterDescendantsInstances = Character:GetDescendants()
+
+			local direction = (Target.Position - Origen.Position)
+			local Result = workspace:Raycast(Origen.Position, direction, NewParams)
+
+			return Result
+		end
+
+		local CustomWorkspace = {
+			CurrentCamera = workspace.CurrentCamera,
+			Raycast = function(self, ...)
+				local Result = WorkSpace.Raycast(WorkSpace, ...)
+				if _G.SilentAim then
+					local NewPlayer = GetClosestPlayerToMouse()
+					local Head = NewPlayer and NewPlayer.Character:FindFirstChild("Head")
+					if Head then
+						return GenerateFakeRaycastResult(HumanoidRootPart, Head)
+					end
+				end
+
+				return Result
+			end
+		}
+
+		local Old = ClientModules.ProjectileHandler.addProjectile
+		local OldENV = getfenv(Old)
+
+		local WallbangCheck = function(...)
+			if not _G.Wallbang then return Old(...) end
+
+			local Args = {...}
+			local Origin = Args[2]
+			local RayCast = Args[5]
+
+			local Direction = (RayCast.Position - Origin).Unit * 5000 
+
+			local WhiteList = {
+				Vehicles,
+				WorkSpace:WaitForChild("CashRegisters", 9e9)
+			}
+
+			local EnterableBuildings = WorkSpace:FindFirstChild("EnterableBuildings")
+			local Bank = EnterableBuildings and EnterableBuildings:FindFirstChild("Bank")
+			if Bank then
+				for i, Glass in ipairs(Bank:GetChildren()) do
+					if Glass.Name == "BreakableGlass" then
+						table.insert(WhiteList, Glass)
+					end
+				end
+			end
+
+			for i, Player in ipairs(Players:GetPlayers()) do
+				if Player ~= LocalPlayer then
+					table.insert(WhiteList, Player.Character)
+				end
+			end
+
+			local NewParams = RaycastParams.new()
+			NewParams.FilterType = Enum.RaycastFilterType.Include
+			NewParams.FilterDescendantsInstances = WhiteList
+
+			Args[5] = WorkSpace:Raycast(Origin, Direction, NewParams)
+
+			return Old(table.unpack(Args))
+		end
+
+		ClientModules.ProjectileHandler.addProjectile = function(...)
+			local Args = {...}
+
+			if _G.SilentAim and Args[6] == nil and Args[5] then
+				OldENV.workspace = CustomWorkspace
+
+				local NewPlayer = GetClosestPlayerToMouse()
+				local Head = NewPlayer and NewPlayer.Character:FindFirstChild("Head")
+
+				task.defer(function()
+					OldENV.workspace = WorkSpace
+				end)
+
+				if Head then
+					local NewRay = GenerateFakeRaycastResult(HumanoidRootPart, Head)
+					local RX, RY, RZ = math.random(25, 350)/1000, math.random(25, 350)/1000, math.random(25, 350)/1000 -- R de random
+					local NewEndLocation = Head.Position + Vector3.new(RX, RY, RZ)
+					local NewDirection = CFrame.lookAt(HumanoidRootPart.Position, Head.Position).LookVector
+
+					return WallbangCheck(Args[1], HumanoidRootPart.Position, NewEndLocation, NewDirection, NewRay)
+				end
+			end
+
+			return WallbangCheck(...)
+		end
+	end)
+
+	local OldgetRemoteENV = getfenv(RealNetwork.getRemote)
+	local Main_G = _G
+
+
+
+
+
+
+
+
+
+
+-- Services
+local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local RunService = game:GetService("RunService")
+
+local player = Players.LocalPlayer
+
+-- Remotes
+local buygearremote = ReplicatedStorage:WaitForChild("FE"):WaitForChild("BuyGear", 5)
+local buygunremote = ReplicatedStorage:WaitForChild("FE"):WaitForChild("BuyGun")
+local equipgunremote = ReplicatedStorage:WaitForChild("FE"):WaitForChild("EquipGun")
+local getdataremote = ReplicatedStorage:WaitForChild("FE"):WaitForChild("GetDataAttribute")
+
+------------------------------------------------
+-- Lists
+------------------------------------------------
+
+local GearList = {
+    "Spray Can", "Hammer", "Crowbar", "Flashlight", "RFID Disruptor",
+    "Baseball Bat", "Lockpick", "Knife", "Glass Cutter", "Scanner"
+}
+
+local GunList = {
+    "Ammo Box", "Beretta M9", "Remington MSR", "AK47", "Desert Eagle",
+    "Kriss Vector", "Skorpion", "TEC-9", "M249", "M14",
+    "PPSH 41", "Colt M1911", "LMT L129A1", "Colt Python", "Remington 870"
+}
+
+------------------------------------------------
+-- State
+------------------------------------------------
+
+local selectedGears = {} -- ✅ MUST EXIST BEFORE BUTTON CALLBACKS
+
+------------------------------------------------
+-- Gun Dropdown
+------------------------------------------------
+
+
+local Section = Tabs.Automation:AddSection("Gun Store")
+
+local GunDropdown = Tabs.Automation:AddDropdown("GunSelectDropdown", {
+    Title = "Select Gun",
+    Values = GunList,
+    Multi = false,
+    Default = nil,
+})
+
+Tabs.Automation:AddButton({
+    Title = "Buy Selected Gun",
+    Callback = function()
+        local selectedGun = GunDropdown.Value
+        if not selectedGun then return end
+        buygun(selectedGun)
+    end
+})
+
+------------------------------------------------
+-- Gear Dropdown
+------------------------------------------------
+
+local Section = Tabs.Automation:AddSection("Tool Store")
+
+local GearDropdown = Tabs.Automation:AddDropdown("GearSelectDropdown", {
+    Title = "Select Gear",
+    Values = GearList,
+    Multi = true,
+    Default = {},
+})
+
+GearDropdown:OnChanged(function(Value)
+    selectedGears = {}
+
+    if typeof(Value) ~= "table" then
+        return
+    end
+
+    for gear, enabled in pairs(Value) do
+        if enabled then
+            table.insert(selectedGears, gear)
+        end
+    end
+end)
+
+------------------------------------------------
+-- Buy Selected Gear Button
+------------------------------------------------
+
+Tabs.Automation:AddButton({
+    Title = "Buy Selected Gear",
+    Callback = function()
+        if typeof(selectedGears) ~= "table" or #selectedGears == 0 then
+            return
+        end
+
+        for _, gear in ipairs(selectedGears) do
+            gearshopbuy(gear)
+        end
+    end
+})
+
+------------------------------------------------
+-- Helper Functions
+------------------------------------------------
+
+function setholder(position)
+    local char = player.Character
+    if char and char:FindFirstChild("HumanoidRootPart") then
+        char.HumanoidRootPart.CFrame = position
+    end
+end
+
+------------------------------------------------
+-- Buy Gear Function
+------------------------------------------------
+
+function gearshopbuy(gear)
+    if not buygearremote then return end
+
+    local character = player.Character or player.CharacterAdded:Wait()
+    local hrp = character:FindFirstChild("HumanoidRootPart")
+    if not hrp then return end
+
+    local originalCF = hrp.CFrame
+    local shopCF = CFrame.new(-444, 40, -692)
+
+    local connection
+    connection = RunService.RenderStepped:Connect(function()
+        pcall(function()
+            hrp.CFrame = shopCF
+        end)
+
+        if not player.Backpack:FindFirstChild(gear)
+        and not character:FindFirstChild(gear) then
+            pcall(function()
+                buygearremote:InvokeServer(gear)
+            end)
+        end
+    end)
+
+    local elapsed = 0
+    while elapsed < 7 do
+        if player.Backpack:FindFirstChild(gear)
+        or character:FindFirstChild(gear) then
+            break
+        end
+        elapsed += 0.1
+        task.wait(0.1)
+    end
+
+    connection:Disconnect()
+    hrp.CFrame = originalCF
+end
+
+------------------------------------------------
+-- Buy Gun Function
+------------------------------------------------
+
+function buygun(gun)
+    local character = player.Character or player.CharacterAdded:Wait()
+    local hrp = character:WaitForChild("HumanoidRootPart")
+
+    local originalCF = hrp.CFrame
+    local shopCF = CFrame.new(-1157, 29, -204)
+    hrp.CFrame = shopCF
+
+    local function getOwnedGuns()
+        local success, result = pcall(function()
+            return getdataremote:InvokeServer("GunData")
+        end)
+        return success and result or {}
+    end
+
+    local owned = getOwnedGuns()
+    local elapsed = 0
+
+    local connection
+    connection = RunService.RenderStepped:Connect(function()
+        pcall(function()
+            hrp.CFrame = shopCF
+        end)
+
+        local hasGun = player.Backpack:FindFirstChild(gun)
+            or character:FindFirstChild(gun)
+
+        if not hasGun then
+            if gun == "Ammo Box" then
+                buygearremote:InvokeServer("Ammo Box")
+            else
+                buygunremote:InvokeServer(gun)
+                equipgunremote:InvokeServer(gun, true)
+            end
+        end
+    end)
+
+    while elapsed < 5 do
+        if player.Backpack:FindFirstChild(gun)
+        or character:FindFirstChild(gun) then
+            break
+        end
+        elapsed += 0.1
+        task.wait(0.1)
+    end
+
+    connection:Disconnect()
+    hrp.CFrame = originalCF
+end
+
+
+
+local Section = Tabs.Automation:AddSection("XP Farms")
+
+Tabs.Automation:AddToggle("MyToggle", {
+    Title = "DOT XP Farm", 
+    Default = false,
+    Callback = function(Value)
+			_G.DOTFarm = Value
+			while _G.DOTFarm and task.wait() do
+				FE:WaitForChild("DOTCollectDebris"):InvokeServer()
+			end
+    end 
+})
+
+Tabs.Automation:AddToggle("MyToggle", {
+    Title = "Fire Department XP Farm", 
+    Default = false,
+    Callback = function(Value)
+			_G.FDFarm = Value
+			while _G.FDFarm and task.wait(2) do
+				ReplicatedStorage:WaitForChild("Tools", 9e9):WaitForChild("EMSHeal", 9e9):FireServer(LocalPlayer)
+			end
+    end 
+})
+
+
+
+task.spawn(function()
+	local Cooldown = 0.5
+	local OnCooldown = false
+
+	Tabs.Trolling:AddButton({
+		Title = "Make Closest Vehicle Dirty",
+		Callback = function()
+			if OnCooldown then return end
+
+			local ClosestVehicle = Functions:GetClosestVehicle(true)
+			if not ClosestVehicle then
+				Fluent:Notify({
+					Title = "Dirtify",
+					Content = "No close vehicle found.",
+					Duration = 5,
+				})
+				return
+			end
+
+			OnCooldown = true
+			task.delay(Cooldown, function()
+				OnCooldown = false
+			end)
+
+			ClosestVehicle.DriverSeat:Sit(Humanoid)
+			task.wait(Functions:GetPing() - 0.07)
+			SetCarDirt:FireServer(ClosestVehicle, -9e9)
+		end
+	})
+end)
+
+
+
+local RunService = game:GetService("RunService")
+local ShockRemote = game:GetService("ReplicatedStorage").FE.Actions:WaitForChild("Shock")
+local ShockEarrapeToggle
+local ShockConnection
+
+ShockEarrapeToggle = Tabs.Trolling:AddToggle("ShockEarrapeToggle", {
+    Title = "Shock Earrape",
+    Default = false,
+    Callback = function(Value)
+        if Value then
+            -- Only modify PlatformStand when toggle is ON
+            if HumanoidRootPart and Humanoid then
+                Humanoid.PlatformStand = false -- allows moving while ragdolled
+                Functions:SetHookFor(RagdollEvent, "OnClientEvent", function() end, false)
+            end
+
+            local timer = 0
+
+            -- Start RenderStepped loop
+            ShockConnection = RunService.RenderStepped:Connect(function(dt)
+                if not ShockEarrapeToggle.Value then return end
+
+                timer = timer + dt
+
+                -- Keep health at max
+                if Humanoid and Humanoid.Health < Humanoid.MaxHealth then
+                    Humanoid.Health = Humanoid.MaxHealth
+                end
+
+                -- Fire Shock remote every 0.3s
+                if timer >= 0 then
+                    pcall(function()
+                        ShockRemote:FireServer()
+                    end)
+                    timer = 0
+                end
+            end)
+        else
+            -- Only stop the loop, DO NOT modify PlatformStand or Hooks
+            if ShockConnection then
+                ShockConnection:Disconnect()
+                ShockConnection = nil
+            end
+        end
+    end
+})
+
+
+
+
+local PhysicsService = game:GetService("PhysicsService")
+local RunService = game:GetService("RunService")
+local Players = game:GetService("Players")
+local plr = Players.LocalPlayer
+
+local function CollisionGroupExists(name)
+    for _, groupInfo in pairs(PhysicsService:GetRegisteredCollisionGroups()) do
+        if groupInfo.name == name then
+            return true
+        end
+    end
+    return false
+end
+
+if not CollisionGroupExists("OnlyCollideWithDefault") then
+    PhysicsService:CreateCollisionGroup("OnlyCollideWithDefault")
+    PhysicsService:CollisionGroupSetCollidable("OnlyCollideWithDefault", "CharacterCollisionGroup", false)
+end
+
+local function notify(msg)
+    print(msg)
+end
+
+local function setCollisionGroupForCharacter(groupName)
+    local character = plr.Character
+    if character then
+        for _, v in pairs(character:GetChildren()) do
+            if v:IsA("BasePart") then
+                PhysicsService:SetPartCollisionGroup(v, groupName)
+            end
+        end
+    end
+end
+
+local function disableVelocityConnections(root)
+    for _, conn in pairs(getconnections(root:GetPropertyChangedSignal("AssemblyLinearVelocity"))) do
+        if conn and conn.Function then
+            conn:Disable()
+        end
+    end
+    for _, conn in pairs(getconnections(root:GetPropertyChangedSignal("Velocity"))) do
+        if conn and conn.Function then
+            conn:Disable()
+        end
+    end
+end
+
+local function flingLoop(enabledFlagGetter)
+    task.spawn(function()
+        while enabledFlagGetter() do
+            local root = plr.Character and plr.Character:FindFirstChild("HumanoidRootPart")
+            if not root then break end
+
+            local vel = root.Velocity
+            local movel = 0.1
+
+            root.Velocity = vel * 10000 + Vector3.new(0, 10000, 0)
+            RunService.RenderStepped:Wait()
+
+            root.Velocity = vel
+            RunService.Stepped:Wait()
+
+            root.Velocity = vel + Vector3.new(0, movel, 0)
+            movel = movel * -1
+
+            RunService.Heartbeat:Wait()
+        end
+    end)
+end
+
+-- Helper to get Humanoid
+local function getHumanoid()
+    local char = plr.Character
+    if char then
+        return char:FindFirstChildOfClass("Humanoid")
+    end
+    return nil
+end
+
+-- Track fling states and connections
+local walkFlingEnabled = false
+local driveFlingEnabled = false
+
+local walkFlingConnection
+local driveFlingConnection
+
+local Section = Tabs.Trolling:AddSection("Fun")
+-- Walk Fling toggle
+Tabs.Trolling:AddToggle("WalkFlingToggle", {
+    Title = "Walk Fling",
+    Default = false,
+    Callback = function(state)
+        local character = plr.Character
+        local root = character and character:FindFirstChild("HumanoidRootPart")
+        local humanoid = getHumanoid()
+        if not root or not humanoid then return end
+
+        if state then
+            if humanoid.Sit then
+                notify("Please get out of the vehicle to use walkfling")
+                walkFlingEnabled = false
+                return
+            end
+
+            if not walkFlingEnabled then
+                setCollisionGroupForCharacter("OnlyCollideWithDefault")
+                disableVelocityConnections(root)
+                walkFlingEnabled = true
+
+                flingLoop(function() return walkFlingEnabled end)
+
+                walkFlingConnection = plr.CharacterAdded:Connect(function()
+                    notify("Walk fling disabled due to character respawning")
+                    walkFlingEnabled = false
+                end)
+
+                humanoid:GetPropertyChangedSignal("Sit"):Connect(function()
+                    if humanoid.Sit then
+                        notify("Please get out of the vehicle to use walkfling")
+                        walkFlingEnabled = false
+                    end
+                end)
+            end
+        else
+            if walkFlingEnabled then
+                setCollisionGroupForCharacter("CharacterCollisionGroup")
+                walkFlingEnabled = false
+                if walkFlingConnection then
+                    walkFlingConnection:Disconnect()
+                    walkFlingConnection = nil
+                end
+            end
+        end
+    end
+})
+
+-- Drive Fling toggle
+Tabs.Trolling:AddToggle("DriveFlingToggle", {
+    Title = "Drive Fling",
+    Default = false,
+    Callback = function(state)
+        local character = plr.Character
+        local root = character and character:FindFirstChild("HumanoidRootPart")
+        local humanoid = getHumanoid()
+        if not root or not humanoid then return end
+
+        if state then
+            if not humanoid.Sit then
+                notify("You must be seated to use drive fling")
+                driveFlingEnabled = false
+                return
+            end
+
+            if not driveFlingEnabled then
+                setCollisionGroupForCharacter("OnlyCollideWithDefault")
+                disableVelocityConnections(root)
+                driveFlingEnabled = true
+
+                flingLoop(function() return driveFlingEnabled end)
+
+                driveFlingConnection = plr.CharacterAdded:Connect(function()
+                    notify("Drive fling disabled due to character respawning")
+                    driveFlingEnabled = false
+                end)
+
+                humanoid:GetPropertyChangedSignal("Sit"):Connect(function()
+                    if not humanoid.Sit then
+                        notify("You must be seated to use drive fling")
+                        driveFlingEnabled = false
+                    end
+                end)
+            end
+        else
+            if driveFlingEnabled then
+                setCollisionGroupForCharacter("CharacterCollisionGroup")
+                driveFlingEnabled = false
+                if driveFlingConnection then
+                    driveFlingConnection:Disconnect()
+                    driveFlingConnection = nil
+                end
+            end
+        end
+    end
+})
+
+
+
+local Section = Tabs.Trolling:AddSection("OP")
+
+local PunchAura
+Tabs.Trolling:AddToggle("DriveFlingToggle", {
+    Title = "Punch Aura",
+    Default = false,
+    Callback = function(Value)
+			_G.PunchAura = Value
+
+			while _G.PunchAura and task.wait(0.2) do
+				task.spawn(pcall, function()
+					if Functions:IsAlive(Humanoid) then
+						for _,Player in ipairs(Players:GetPlayers()) do
+							if Player == LocalPlayer then continue end
+
+							local THumanoid = Player and Player.Character and Player.Character:FindFirstChildOfClass("Humanoid")
+
+							if THumanoid and Player.Character.PrimaryPart and THumanoid.Health > 0.101 then
+								local PlayerDistance = LocalPlayer:DistanceFromCharacter(Player.Character.PrimaryPart.Position)
+
+								if PlayerDistance < 17 then
+									PunchEvent:FireServer(Player)
+								end
+							end
+						end
+					end
+				end)
+			end
+    end
+})
+_G.Invisibility = false
+
+local InvisibilityExploit
+
+InvisibilityExploit = Tabs.Trolling:AddToggle("DriveFlingToggle", {
+    Title = "Invisibility",
+    Default = false,
+    Callback = function(Value)
+        _G.Invisibility = Value
+
+        if not Functions:IsAlive(Humanoid) then
+            return InvisibilityExploit:SetValue(false)
+        end
+
+        if _G.Invisibility and HumanoidRootPart then
+            if Character:FindFirstChild("InvisMark") then
+                Fluent:Notify({
+                    Title = "Invisibility",
+                    Content = (Character:FindFirstChild("InvisMark") and "You are already invisible." or "You cannot use this while having 'Disable TP Check' enabled!"),
+                    Duration = 4,
+                })
+
+                return InvisibilityExploit:SetValue(false)
+            end
+
+            local OldCFrame = HumanoidRootPart.CFrame
+
+            Functions:ClientTP(HumanoidRootPart.CFrame * CFrame.new(0, 1e7, 0))
+            Humanoid.PlatformStand = true
+            task.wait(Functions:GetPing() + 0.1)
+
+            Functions:SetHookFor(RagdollEvent, "OnClientEvent", function() end, false) -- Disable Ragdoll Effects
+
+            local StartTick = tick()
+            local Response
+
+            while Response ~= "Success" or tick() - StartTick > 3 do
+                Response = ToggleRagdoll:InvokeServer()
+                if Response == "Success" then
+                    break
+                end
+                HumanoidRootPart.Velocity = Vector3.zero
+            end
+
+            if tick() - StartTick > 3 then
+                Fluent:Notify({
+                    Title = "Invisibility",
+                    Content = "Invis timeout, Please try again!",
+                    Duration = 5,
+                })
+
+                Functions:ClientTP(OldCFrame)
+                return InvisibilityExploit:SetValue(false)
+            end
+
+            repeat task.wait() until Character:FindFirstChild("RAGDOLLED")
+
+            local Mark = Character.RAGDOLLED
+            Mark.Name = "InvisMark"
+
+            Mark.Destroying:Once(function()
+                if _G.Invisibility then
+                    Fluent:Notify({
+                        Title = "Invisibility",
+                        Content = "You are no longer Invisible.",
+                        Duration = 5,
+                    })
+
+                    task.delay(0.5, function()
+                        InvisibilityExploit:SetValue(false)
+                    end)
+                end
+            end)
+
+            for _, v in ipairs(Character:GetDescendants()) do
+                if v:IsA("Motor6D") then
+                    v.Part1 = v.Parent
+                end
+            end
+
+            HumanoidRootPart.Velocity = Vector3.zero
+            task.wait()
+
+            Functions:SetHookFor(RagdollEvent, "OnClientEvent", false) -- Revert Hook
+            task.wait(0.5)
+
+            Functions:ClientTP(OldCFrame)
+            Humanoid.PlatformStand = false
+
+            Fluent:Notify({
+                Title = "Invisibility",
+                Content = "Successfully made you invisible!",
+                Duration = 5,
+            })
+
+            for _, BasePart in ipairs(Character:GetChildren()) do
+                if BasePart:IsA("BasePart") and BasePart.Transparency == 0 then
+                    BasePart.Transparency = 0.6
+                end
+            end
+        elseif Character:FindFirstChild("InvisMark") then
+            Fluent:Notify({
+                Title = "Invisibility",
+                Content = "Turning off invisibility, Please wait!",
+                Duration = 5,
+            })
+
+            local Response
+            while Response ~= "Success" do
+                Response = ToggleRagdoll:InvokeServer()
+                task.wait(0.2)
+            end
+
+            Fluent:Notify({
+                Title = "Invisibility",
+                Content = "Successfully turned off invisibility.",
+                Duration = 3,
+            })
+
+            for _, BasePart in ipairs(Character:GetChildren()) do
+                if BasePart:IsA("BasePart") and BasePart.Transparency >= 0.51 and BasePart.Transparency <= 0.8 then
+                    BasePart.Transparency = 0
+                end
+            end
+        end
+    end
+})
+
+-- On respawn, update character references and reset toggle
+LocalPlayer.CharacterAdded:Connect(function(Char)
+    -- Update references
+    Character = Char
+    Humanoid = Char:WaitForChild("Humanoid")
+    HumanoidRootPart = Char:WaitForChild("HumanoidRootPart")
+
+    -- Reset invisibility toggle
+    task.defer(function()
+        if InvisibilityExploit then
+            _G.Invisibility = false
+            InvisibilityExploit:SetValue(false)
+        end
+    end)
+end)
+
+
+
+
+
+
+
+
+
+local PlaceTPs = Tabs.Teleports:AddDropdown("Dropdown", {
+    Title = "Place TPs",
+    Values = (function()
+			local keys = {}
+			for key in pairs(TeleportLocations) do
+				table.insert(keys, key)
+			end
+			return keys
+		end)(),
+    Multi = false,
+    Default = "",
+})
+
+PlaceTPs:OnChanged(function(Value)
+			tpLocation = Value
+end)
+
+
+Tabs.Teleports:AddButton({
+    Title = "Teleport To Location",
+    Callback = function()
+			local targetPosition = TeleportLocations[tpLocation]
+
+			if targetPosition then
+				local success, err = pcall(function()
+					Functions:SecureTP(targetPosition, true)
+				end)
+
+				if success then
+					Fluent:Notify({
+						Title = "Teleport",
+						Content = "Attempted to TP to location: " .. tpLocation,
+						Duration = 5,
+					})
+				else
+					Fluent:Notify({
+						Title = "Teleport",
+						Content = "Failed to TP to location: " .. tpLocation .. " " .. err,
+						Duration = 5,
+					})
+				end
+			end
+    end
+})
+local Section = Tabs.Teleports:AddSection(" ")
+Tabs.Teleports:AddButton({
+    Title = "Teleport to a random Bounty Vehicle",
+    Callback = function()
+			if Functions:IsAlive(Humanoid) and HumanoidRootPart and Humanoid then
+				local RandomBountyVehicle = Functions:GetRandomBountyVehicle()
+
+				if not RandomBountyVehicle then
+					WindUI:Notify({
+						Title = "Random Bounty Vehicle",
+						Content = "No bounty vehicle found",
+						Duration = 5,
+					})
+					return
+				end
+
+				local VehicleCFrame = RandomBountyVehicle:GetPivot() * CFrame.new(0, 6, 0)
+				Functions:SecureTP(VehicleCFrame, true)
+			end
+    end
+})
+
+
+	_G.WaypointTP = false
+
+Tabs.Teleports:AddToggle("MyToggle", {
+    Title = "Waypoint Teleport", 
+    Default = false,
+    Callback = function(Value)
+			_G.WaypointTP = Value
+    end 
+})
+
+	task.spawn(function()
+		ReplicatedStorage:WaitForChild("ClientBinds", 9e9):WaitForChild("SetMapMarker", 9e9).Event:Connect(function(Info, Position, IsLocalPlayers)
+			if _G.WaypointTP and Info == "CustomWaypoint" and IsLocalPlayers and Position then
+				Functions:SecureTP(Position, true)
+			end
+		end)
+	end)
+
+
+
+
+
+
+
+
+
+
+
+Tabs.Robberies:AddParagraph({
+    Title = "Robberies",
+    Content = "Robberies will be added back soon."
+})
+
+
+
+
+
+
+
+
+
+
+
+
+Tabs.Settings:AddToggle("MyToggle", {
+    Title = "Execution Visibility", 
+    Default = false,
+    Callback = function(Value)
+			local Info = LocalPlayer:FindFirstChild("RoleplayInfo")
+
+			local LocalPlayerName = LocalPlayer.Name
+
+			if not Info then
+				Fluent:Notify({
+					Title = "PlayerVisibility",
+					Content = "No Info found? please try respawning and do this again",
+					Duration = 5,
+				})
+
+				ToggleMemberVisibility:Set(false)
+				return
+			end
+
+			if Value then
+				local NewERXName
+
+				if #LocalPlayerName >= 6 then
+					local nameChars = {}
+					for i = 1, #LocalPlayerName do
+						nameChars[i] = LocalPlayerName:sub(i, i)
+					end
+					nameChars[2] = "M"
+					nameChars[4] = "I"
+					nameChars[6] = "N"
+					nameChars[8] = "E"
+					nameChars[10] = "B"
+					nameChars[12] = "L"
+					nameChars[14] = "O"
+					nameChars[16] = "X"
+					NewERXName = table.concat(nameChars)
+				else
+					NewERXName = "JESRSX"
+				end
+
+				local NameResponse = ChangeRoleplayInfo:InvokeServer({
+					["BackgroundStyle"] = Info.BackgroundStyle.Value,
+					["HairColor"] = (Info.HairColor.Value ~= "" and Info.HairColor.Value or "Black"),
+					["EyeColor"] = Info.EyeColor.Value,
+					["HeightFeet"] = Info.HeightFeet.Value,
+					["Age"] = Info.Age.Value,
+					["Name"] = NewERXName,
+					["Weight"] = Info.Weight.Value,
+					["HeightInches"] = Info.HeightInches.Value,
+					["License"] = "Active",
+					["Gender"] = (Info.Gender.Value ~= "" and Info.Gender.Value or "Other")
+				})
+
+				if NameResponse ~= "Success" then
+					NameResponse = ChangeRoleplayInfo:InvokeServer({
+						["BackgroundStyle"] = Info.BackgroundStyle.Value,
+						["HairColor"] = (Info.HairColor.Value ~= "" and Info.HairColor.Value or "Black"),
+						["EyeColor"] = Info.EyeColor.Value,
+						["HeightFeet"] = Info.HeightFeet.Value,
+						["Age"] = Info.Age.Value,
+						["Name"] = "zEzRzX",
+						["Weight"] = Info.Weight.Value,
+						["HeightInches"] = Info.HeightInches.Value,
+						["License"] = "Active",
+						["Gender"] = (Info.Gender.Value ~= "" and Info.Gender.Value or "Other")
+					})
+				end
+
+				if NameResponse == "Success" then
+					Fluent:Notify({
+						Title = "PlayerVisibility",
+						Content = "Changed Visibility successfully!",
+						Duration = 5,
+					})
+				else
+					Fluent:Notify({
+						Title = "PlayerVisibility",
+						Content = "Failed to set visibility",
+						Duration = 5,
+					})
+				end
+			elseif not Value and Functions:IsVisibleERXUser(LocalPlayer) then
+				local Response = ChangeRoleplayInfo:InvokeServer({
+					["BackgroundStyle"] = Info.BackgroundStyle.Value,
+					["HairColor"] = (Info.HairColor.Value ~= "" and Info.HairColor.Value or "Black"),
+					["EyeColor"] = Info.EyeColor.Value,
+					["HeightFeet"] = Info.HeightFeet.Value,
+					["Age"] = Info.Age.Value,
+					["Name"] = LocalPlayerName,
+					["Weight"] = Info.Weight.Value,
+					["HeightInches"] = Info.HeightInches.Value,
+					["License"] = "Active",
+					["Gender"] = (Info.Gender.Value ~= "" and Info.Gender.Value or "Other")
+				})
+
+				if Response == "Success" then
+					Fluent:Notify({
+						Title = "PlayerVisibility",
+						Content = "Changed Visibility successfully!",
+						Duration = 5,
+					})
+				else
+					Fluent:Notify({
+						Title = "PlayerVisibility",
+						Content = "Failed to set visibility....... Somehow",
+						Duration = 5,
+					})
+				end
+			end
+    end 
+})
+
+
+local SaveManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/SaveManager.lua"))()
+local InterfaceManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/InterfaceManager.lua"))()
+
+SaveManager:SetLibrary(Fluent)
+InterfaceManager:SetLibrary(Fluent)
+
+InterfaceManager:BuildInterfaceSection(Tabs.Settings)
+SaveManager:BuildConfigSection(Tabs.Settings)
+
+			game:GetService("StarterGui"):SetCore("SendNotification", {
+				Title = "Loaded successfully";
+				Text = "Enjoy!",
+				Duration = 4,
+			})

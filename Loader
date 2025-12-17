@@ -1,9 +1,19 @@
+if getgenv().ScriptAlreadyExecuted then
+			game:GetService("StarterGui"):SetCore("SendNotification", {
+				Title = "Mineblox - Error";
+				Text = "You have already executed this script!",
+				Duration = 3,
+			})
+	return
+end
+getgenv().ScriptAlreadyExecuted = true
+
 local Players = game:GetService("Players")
 local player = Players.LocalPlayer
 
 local GameLoaders = {
 	[903807016] = function()
-		print("hello")
+		loadstring(game:HttpGet("https://raw.githubusercontent.com/TheBypasserOnTop/MinebloxLoader/refs/heads/main/ERLC"))()
 	end,
 }
 

@@ -1484,6 +1484,64 @@ Tabs.Main:AddToggle("InfStam", {
     end,
 })
 
+-- Services
+local Players = game:GetService("Players")
+local UserInputService = game:GetService("UserInputService")
+local RunService = game:GetService("RunService")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local Workspace = game:GetService("Workspace")
+
+local player = Players.LocalPlayer
+local playerName = player.Name
+
+-- Toggle state
+local active = false
+
+-- Helper to get Snowball tool and LocalScript
+local function getSnowballTool()
+    local character = Workspace:FindFirstChild(playerName)
+    if character then
+        local tool = character:FindFirstChild("Snowball")
+        if tool then
+            local snowballLS = tool:FindFirstChild("Snowball LS")
+            return tool, snowballLS
+        end
+    end
+    return nil, nil
+end
+
+-- Persistent loop (only one)
+RunService.RenderStepped:Connect(function()
+    if not active then return end  -- do nothing if toggle off
+
+    local tool, snowballLS = getSnowballTool()
+    if not tool or not snowballLS then return end
+
+    local ready = tool:GetAttribute("Ready")
+    if ready then
+        snowballLS.Enabled = true
+    else
+        snowballLS.Enabled = false
+
+        -- Wait for left mouse click (non-blocking)
+        if UserInputService:IsMouseButtonPressed(Enum.UserInputType.MouseButton1) then
+            local pickupRemote = ReplicatedStorage:WaitForChild("FE"):WaitForChild("Snowball"):WaitForChild("Pickup")
+            pickupRemote:InvokeServer()
+            snowballLS.Enabled = true
+        end
+    end
+end)
+
+-- Toggle integration
+Tabs.Main:AddToggle("InfStam", {
+    Title = "Instantly Pickup Snowballs",
+    Default = false,
+    Callback = function(Value)
+        active = Value
+    end,
+})
+
+
 
 local OtherSection = Tabs.Main:AddSection("Other")
 

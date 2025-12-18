@@ -1917,7 +1917,7 @@ local ESPTeams = Tabs.Visuals:AddDropdown("ESPTeams", {
         return TeamsNames
     end)(),
     Multi = true,
-    Default = {"Civilian"},
+    Default = {""},
 
     Callback = function(Value)
         -- 🔹 Convert MultiDropdown dictionary → array
@@ -3351,7 +3351,7 @@ Tabs.Teleports:AddButton({
 				local RandomBountyVehicle = Functions:GetRandomBountyVehicle()
 
 				if not RandomBountyVehicle then
-					WindUI:Notify({
+					Fluent:Notify({
 						Title = "Random Bounty Vehicle",
 						Content = "No bounty vehicle found",
 						Duration = 5,
@@ -3390,22 +3390,378 @@ Tabs.Teleports:AddToggle("MyToggle", {
 
 
 
+--// ================== SERVICES ==================
+local plr = game:GetService("Players").LocalPlayer
+local camera = workspace.CurrentCamera
+local screenCenter = camera.ViewportSize / 2
+
+--// ================== VIRTUAL INPUT (KEEP Instance.new) ==================
+local services = {
+    VirtualInputManager = Instance.new("VirtualInputManager")
+}
+setmetatable(services, {
+    __index = function(self, idx)
+        self[idx] = cloneref(game:GetService(idx))
+        return self[idx]
+    end
+})
+
+local function doMouseClick(x, y)
+    services.VirtualInputManager:SendMouseButtonEvent(x, y, 0, true, game, 0)
+    task.wait()
+    services.VirtualInputManager:SendMouseButtonEvent(x, y, 0, false, game, 0)
+end
 
 
+local jewelryVisibleConnection
+Tabs.Robberies:AddToggle("MyToggle", {
+    Title = "Auto Jewelry", 
+    Default = false,
+    Callback = function(state)
+		jewelryVisibleConnection = plr.PlayerGui:FindFirstChild("GameMenus"):FindFirstChild("GlassCutting"):GetPropertyChangedSignal("Visible"):Connect(function()
+			local glassCuttingFrame = plr.PlayerGui:FindFirstChild("GameMenus"):FindFirstChild("GlassCutting")
+			if glassCuttingFrame.Visible then
+				local greenBox = glassCuttingFrame:FindFirstChild("GreenBox")
+				local oldBoxSize = greenBox.Size
+				greenBox.Size = UDim2.new(500,500, 500,500)
+				repeat task.wait() services.VirtualInputManager:SendMouseMoveEvent(screenCenter.X + math.random(1, 50), screenCenter.Y + math.random(1, 50), game) until glassCuttingFrame:FindFirstChild("FXHolder"):FindFirstChild("Spark")
+				repeat task.wait() until not glassCuttingFrame.Visible
+				greenBox.Size = oldBoxSize
+			end
+		end)
+    end 
+})
 
 
-Tabs.Robberies:AddParagraph({
-    Title = "Robberies",
-    Content = "Robberies will be added back soon."
+local ATMConnection
+
+Tabs.Robberies:AddToggle("AutoATM", {
+    Title = "Auto ATM",
+    Default = false,
+    Callback = function(state)
+        if ATMConnection then
+            ATMConnection:Disconnect()
+            ATMConnection = nil
+        end
+
+        if not state then
+            return
+        end
+
+        local hackingUI = plr.PlayerGui
+            :WaitForChild("GameMenus")
+            :WaitForChild("ATM")
+            :WaitForChild("Hacking")
+
+        ATMConnection = hackingUI:GetPropertyChangedSignal("Visible"):Connect(function()
+            if not hackingUI.Visible then return end
+
+            while hackingUI.Visible do
+                task.wait()
+
+                local targetText = hackingUI.SelectingCode.Text
+                for _, v in ipairs(hackingUI:GetDescendants()) do
+                    if v:IsA("TextLabel")
+                        and v.Text == targetText
+                        and v.TextColor3 == Color3.new(0, 0, 0) then
+
+                        doMouseClick(screenCenter.X, screenCenter.Y)
+                        task.wait(0.1)
+                        break
+                    end
+                end
+
+                if plr.PlayerGui.GameMenus.ATM.SuccessfulHack.Visible then
+                    break
+                end
+            end
+        end)
+    end
 })
 
 
 
 
 
+-- =================== AUTO LOCKPICK TOGGLE ===================
+local autoLockpick = false
+
+Tabs.Robberies:AddToggle("AutoLockpick", {
+    Title = "Auto Lockpick",
+    Default = false,
+    Callback = function(state)
+        autoLockpick = state
+        if state then
+            print("Auto Lockpick ON")
+        else
+            print("Auto Lockpick OFF")
+        end
+    end
+})
+
+-- =================== AUTO LOCKPICK LOOP ===================
+coroutine.wrap(function()
+    while task.wait(0.1) do
+        if not autoLockpick then continue end
+        pcall(function()
+            local lockpickGui = game:GetService("Players").LocalPlayer.PlayerGui.GameMenus:FindFirstChild("Lockpick")
+            if lockpickGui and lockpickGui.Visible then
+                -- Resize the lockpick bars to make minigame easier
+                for _, v in pairs(lockpickGui.Pick:GetChildren()) do
+                    if v:FindFirstChild("ImageLabel") then
+                        v.Size = UDim2.new(0.1, 0, 2, 0)
+                    end
+                end
+
+                -- Simulate clicks using VirtualUser
+                if cloneref then
+                    local VirtualUser = cloneref(game:GetService("VirtualUser"))
+                    VirtualUser:CaptureController()
+                    VirtualUser:ClickButton1(Vector2.new())
+                end
+            end
+        end)
+    end
+end)()
 
 
 
+
+
+
+local Section = Tabs.Robberies:AddSection("Bounty Vehicle")
+
+
+--// ================= AUTO CROWBAR (CARS) =================
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+local PlayerGui = LocalPlayer:WaitForChild("PlayerGui")
+
+local autocrowbar = false
+
+-- VirtualUser (keep this method)
+local VirtualUser = cloneref(game:GetService("VirtualUser"))
+
+Tabs.Robberies:AddToggle("AutoCrowbarCars", {
+    Title = "Auto Crowbar",
+    Default = false,
+    Callback = function(state)
+        autocrowbar = state
+    end
+})
+
+task.spawn(function()
+    while task.wait(0.1) do
+        if not autocrowbar then
+            continue
+        end
+
+        pcall(function()
+            local crowbarGui = PlayerGui
+                :WaitForChild("GameMenus")
+                :WaitForChild("Crowbar")
+
+            if crowbarGui.Visible then
+                -- Make success zone huge
+                crowbarGui.Main.Game.Target.Size =
+                    UDim2.new(2.03500009, 0, 0.960000038, 0)
+
+                -- Click once
+                VirtualUser:CaptureController()
+                VirtualUser:ClickButton1(Vector2.new(0, 0))
+            end
+        end)
+    end
+end)
+
+
+
+
+local autowire = false
+
+Tabs.Robberies:AddToggle("NoWireCars", {
+    Title = "Auto Wire Puzzle",
+    Default = false,
+    Callback = function(state)
+        autowire = state
+    end
+})
+
+task.spawn(function()
+    while task.wait(0.3) do
+        if not autowire then
+            continue
+        end
+
+        pcall(function()
+            for _, v in ipairs(workspace.Vehicles:GetChildren()) do
+                if v:GetAttribute("NeedsHotwire") == true then
+                    v:SetAttribute("NeedsHotwire", false)
+                end
+            end
+        end)
+    end
+end)
+
+
+local nonumhack = false
+
+Tabs.Robberies:AddToggle("NoNumbersCars", {
+    Title = "Auto Numbers Hack",
+    Default = false,
+    Callback = function(state)
+        nonumhack = state
+    end
+})
+
+task.spawn(function()
+    while task.wait(0.3) do
+        if not nonumhack then
+            continue
+        end
+
+        pcall(function()
+            for _, v in ipairs(workspace.Vehicles:GetChildren()) do
+                if v:GetAttribute("NeedsHack") == true then
+                    v:SetAttribute("NeedsHack", false)
+                end
+            end
+        end)
+    end
+end)
+
+
+
+local LocalPlayer = Players.LocalPlayer
+
+function GetTime(pos, Speed)
+	local Distance = (LocalPlayer.Character.HumanoidRootPart.Position - pos.Position).Magnitude
+	local Time = Distance / Speed
+	return Time
+end
+
+function setholder(cframe, time)
+	coroutine.wrap(function()
+		local fa = Instance.new("Part")
+		fa.Parent = workspace
+		fa.Size = Vector3.new(4,1,2)
+		fa.Transparency = 1
+		fa.CastShadow = false
+		fa.Anchored = true
+		fa.CanCollide = true
+		fa.CanTouch = false
+		pcall(function()
+			fa.CFrame = cframe + Vector3.new(0,-3.498,0)
+		end)
+		wait(time)
+		fa:Destroy()
+	end)()
+end
+
+function setholder2(cframe, time, size)
+	coroutine.wrap(function()
+		local fa = Instance.new("Part")
+		fa.Parent = workspace
+		fa.Size = size
+		fa.Transparency = 1
+		fa.CastShadow = false
+		fa.Anchored = true
+		fa.CanCollide = true
+		fa.CanTouch = false
+		pcall(function()
+			fa.CFrame = cframe
+		end)
+		wait(time)
+		fa:Destroy()
+	end)()
+end
+
+
+local function SellBountyVehicle()
+    pcall(function()
+        local char = LocalPlayer.Character
+        if not char then return end
+        local hrp = char:FindFirstChild("HumanoidRootPart")
+        local seat = char:FindFirstChild("Humanoid") and char.Humanoid.SeatPart
+
+        if seat and seat.Parent and seat.Parent.Parent.Name == "Vehicles" and hrp then
+            local posa = hrp.Position
+            local tickertimer = 0
+            local eddiePos = workspace.VoiceNPCs.Eddie.WorldPivot.Position
+
+            -- Move vehicle near Eddie
+            setholder2(CFrame.new(eddiePos) * CFrame.new(0,-0.5,0), 3, Vector3.new(10,10,10))
+
+            repeat
+                task.wait()
+                seat.Parent:SetPrimaryPartCFrame(CFrame.new(eddiePos) * CFrame.new(0,10,0))
+                tickertimer += 0.1
+            until workspace.VoiceNPCs.Eddie:FindFirstChild("Head") or tickertimer >= 30
+
+            task.wait(0.3)
+            char.Humanoid.Jump = true
+            task.wait()
+
+            -- Fire Sell Remotes
+            local args = {"Sell"}
+            ReplicatedStorage:WaitForChild("FE"):WaitForChild("BountyVehicle"):FireServer(unpack(args))
+            task.wait(0.5)
+            ReplicatedStorage:WaitForChild("FE"):WaitForChild("ChopShopSell"):InvokeServer(unpack(args))
+            task.wait()
+
+            -- Close GUI if firesignal exists
+            if firesignal then
+                local guiClose = LocalPlayer.PlayerGui.GameMenus.ChopShop:FindFirstChild("Close")
+                if guiClose then
+                    firesignal(guiClose.MouseButton1Down)
+                end
+            end
+        end
+    end)
+end
+
+
+local Section = Tabs.Robberies:AddSection("Sell Bounty Vehicle")
+
+Tabs.Robberies:AddButton({
+    Title = "Sell Bounty Vehicle",
+    Callback = function()
+        SellBountyVehicle()
+    end
+})
+
+local autoSellBountyVehicle = false
+local autoSellDebounce = false
+
+Tabs.Robberies:AddToggle("AutoSellBountyVehicle", {
+    Title = "Auto Sell Bounty Vehicle",
+    Default = false,
+    Callback = function(state)
+        autoSellBountyVehicle = state
+        if state then
+            print("Auto Sell ON")
+        else
+            print("Auto Sell OFF")
+        end
+    end
+})
+
+-- =================== AUTO SELL LOOP ===================
+task.spawn(function()
+    while task.wait(0.3) do
+        if not autoSellBountyVehicle then continue end
+        local char = LocalPlayer.Character
+        local hrp = char and char:FindFirstChild("HumanoidRootPart")
+        local seat = char and char:FindFirstChild("Humanoid") and char.Humanoid.SeatPart
+
+        if seat and seat.Parent and seat.Parent.Parent.Name == "Vehicles" and not autoSellDebounce and hrp then
+            autoSellDebounce = true
+            SellBountyVehicle()
+            task.wait(1) -- prevent multiple triggers too fast
+            autoSellDebounce = false
+        end
+    end
+end)
 
 
 

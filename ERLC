@@ -178,12 +178,9 @@ Window:SelectTab(1)
 	local Actions = FE:WaitForChild("Actions", 9e9)
 
 
-	local RobJewelryRemote = FE:WaitForChild("RobJewelry", 9e9) -- :: RemoteEvent
 	local RagdollEvent = FE:WaitForChild("Ragdoll", 9e9)
-	local PushCurrency = FE:WaitForChild("PushCurrency", 9e9)
 
 	local ChangeRoleplayInfo = FE:WaitForChild("ChangeRoleplayInfo", 9e9)
-	local AcceptedModRequest = FE:WaitForChild("AcceptedModRequest", 9e9)
 	local FillStaminaRemote = FE:WaitForChild("FillStaminaBought", 9e9)
 	local EquippedHandcuffs = FE:WaitForChild("EquippedHandcuffs", 9e9)
 	local EnviromentRemote = Actions:WaitForChild("Environmental", 9e9)
@@ -193,7 +190,6 @@ Window:SelectTab(1)
 
 	local SetCarDirt = FE:WaitForChild("SetCarDirt", 9e9)
 	local PunchEvent = FE:WaitForChild("Punch", 9e9)
-	local Chat = FE:WaitForChild("Chat", 9e9)
 
 	local ToggleRagdoll = FE:WaitForChild("ToggleRagdoll", 9e9)
 
@@ -698,60 +694,6 @@ end),
 			end
 		end
 	end)
-
-	local VehicleData = {}
-	local StoreVehicleDefaults = function(Vehicle)
-		if not VehicleData[Vehicle] then
-			local Drive = require(Vehicle["Drive Controller"])
-			VehicleData[Vehicle] = {
-				Horsepower = Drive.Horsepower,
-				FinalDrive = Drive.FinalDrive,
-				RevAccel = Drive.RevAccel,
-				FAntiRoll = Drive.FAntiRoll,
-				RBrakeForce = Drive.RBrakeForce or 1,
-				FBrakeForce = Drive.FBrakeForce or 1,
-				PBrakeForce = Drive.PBrakeFrce,
-				SteerDecay = Drive.SteerDecay,
-				BrakeForce = Drive.BrakeForce
-			}
-		end
-	end
-
-	local ApplySpeedMultiplier = function(Vehicle)
-		local suc, err = pcall(function()
-			if Vehicle and Vehicle:FindFirstChild("Drive Controller") then
-				local SpeedMultiplier = _G.VehicleSpeedMultiplier
-
-				if not VehicleData[Vehicle] then
-					table.clear(VehicleData)
-					StoreVehicleDefaults(Vehicle)
-				end
-
-				local Drive = require(Vehicle["Drive Controller"])
-				local Defaults = VehicleData[Vehicle]
-
-				if not Defaults then return end 
-
-				local NewHorsepower = math.max(rawget(Defaults, "Horsepower") * SpeedMultiplier, 2000)
-
-				if NewHorsepower < 2160 and SpeedMultiplier > 1.5 then
-					NewHorsepower = rawget(Defaults, "Horsepower") * 1.7 * SpeedMultiplier
-				end
-
-				rawset(Drive, "Horsepower", (SpeedMultiplier == 1 and rawget(Defaults, "Horsepower") or NewHorsepower))
-				rawset(Drive, "FinalDrive", SpeedMultiplier > 1 and (rawget(Defaults, "FinalDrive") / math.sqrt(SpeedMultiplier)) or rawget(Defaults, "FinalDrive"))
-				rawset(Drive, "RevAccel", rawget(Defaults, "RevAccel") * SpeedMultiplier)
-				rawset(Drive, "FAntiRoll", rawget(Defaults, "FAntiRoll") * SpeedMultiplier)
-				rawset(Drive, "SteerDecay", rawget(Defaults, "SteerDecay") * SpeedMultiplier)
-			end
-		end)
-
-		if not suc then
-			return false, err
-		end
-
-		return true
-	end
 
 
 
@@ -2450,161 +2392,282 @@ Tabs.GunMods:AddToggle("MyToggle", {
     end
 })
 
-	task.spawn(function()
-	Tabs.Aimbot:AddToggle("MyToggle", {
-    Title = "Silent Aim",
+
+local AmmoBoxRemote = ReplicatedStorage:WaitForChild("FE"):WaitForChild("AmmoBox")
+
+local autoRefillAmmo = false
+local refillDebounce = false
+local lastText
+
+-- =================== HELPERS ===================
+local function getAmmoLabel()
+    local gui = player:FindFirstChild("PlayerGui")
+    if not gui then return end
+    local weaponUI = gui:FindFirstChild("WeaponUI")
+    if not weaponUI then return end
+    local statFrame = weaponUI:FindFirstChild("StatFrame")
+    if not statFrame then return end
+    local ammoFrame = statFrame:FindFirstChild("AmmoFrame")
+    if not ammoFrame then return end
+    return ammoFrame:FindFirstChild("TotalAmmo")
+end
+
+local function parseAmmo(text)
+    local nums = {}
+    for n in string.gmatch(text, "%d+") do
+        table.insert(nums, tonumber(n))
+    end
+    return nums[#nums]
+end
+
+local function getHumanoid()
+    local char = player.Character
+    if not char then return end
+    return char:FindFirstChildOfClass("Humanoid")
+end
+
+local function getCurrentGun()
+    local char = player.Character
+    if not char then return end
+
+    for _, gun in ipairs(AllGuns) do
+        if char:FindFirstChild(gun) then
+            return gun
+        end
+    end
+
+    for _, gun in ipairs(AllGuns) do
+        if player.Backpack:FindFirstChild(gun) then
+            return gun
+        end
+    end
+end
+
+local function equipTool(name)
+    local hum = getHumanoid()
+    if not hum then return end
+
+    local tool =
+        player.Backpack:FindFirstChild(name)
+        or (player.Character and player.Character:FindFirstChild(name))
+
+    if tool then
+        hum:EquipTool(tool)
+        return true
+    end
+end
+
+-- =================== TOGGLE ===================
+
+-- =================== LOOP ===================
+RunService.RenderStepped:Connect(function()
+    if not autoRefillAmmo or refillDebounce then return end
+
+    local ammoLabel = getAmmoLabel()
+    if not ammoLabel then return end
+
+    if ammoLabel.Text ~= lastText then
+        lastText = ammoLabel.Text
+        print("[AmmoText]", ammoLabel.Text)
+    end
+
+    local ammo = parseAmmo(ammoLabel.Text)
+    if not ammo then return end
+
+    if ammo < 50 then
+        refillDebounce = true
+
+        local currentGun = getCurrentGun()
+        print("[AutoRefillAmmo] Current Gun:", currentGun)
+
+        -- Buy Ammo Box
+        pcall(function()
+            buygun("Ammo Box")
+        end)
+
+        -- Wait for Ammo Box
+        local t = tick()
+        repeat task.wait()
+        until player.Backpack:FindFirstChild("Ammo Box") or tick() - t > 2
+
+        -- Equip Ammo Box
+        equipTool("Ammo Box")
+        task.wait(0.15)
+
+        -- 🔥 ACTUAL REFILL LOGIC (FROM LOCAL SCRIPT)
+        pcall(function()
+            AmmoBoxRemote:InvokeServer()
+        end)
+        print("[AutoRefillAmmo] Ammo refilled")
+
+        task.wait(0)
+
+        -- Re-equip previous gun
+        if currentGun then
+            equipTool(currentGun)
+        end
+
+        task.delay(3, function()
+            refillDebounce = false
+        end)
+    end
+end)
+
+
+
+
+task.spawn(function()
+    -- Silent Aim toggle
+    Tabs.Aimbot:AddToggle("MyToggle", {
+        Title = "Silent Aim",
+        Default = false,
+        Callback = function(Value)
+            _G.SilentAim = Value
+        end
+    })
+
+    -- No Recoil toggle
+    local OldWeaponSStats = {}
+    local OldRecoils = {}
+    Tabs.Aimbot:AddToggle("MyToggle", {
+        Title = "No Recoil",
+        Default = false,
+        Callback = function(Value)
+            for _, v in ipairs(ReplicatedStorage:WaitForChild("Shared", 9e9).WeaponStats:GetChildren()) do
+                local WeaponModule = OldWeaponSStats[v] or require(v)
+                OldWeaponSStats[v] = WeaponModule
+
+                if not OldRecoils[v.Name] then
+                    OldRecoils[v.Name] = {}
+                end
+
+                if Value then
+                    if not OldRecoils[v.Name]["CameraKickMin"] then
+                        OldRecoils[v.Name]["CameraKickMin"] = WeaponModule["CameraKickMin"]
+                        OldRecoils[v.Name]["CameraKickMax"] = WeaponModule["CameraKickMax"]
+                    end
+                    rawset(WeaponModule, "CameraKickMin", Vector3.zero)
+                    rawset(WeaponModule, "CameraKickMax", Vector3.zero)
+                elseif OldRecoils[v.Name]["CameraKickMin"] then
+                    rawset(WeaponModule, "CameraKickMin", OldRecoils[v.Name]["CameraKickMin"])
+                    rawset(WeaponModule, "CameraKickMax", OldRecoils[v.Name]["CameraKickMax"])
+                end
+            end
+        end
+    })
+
+    -- Wallbang toggle
+    Tabs.Aimbot:AddToggle("MyToggle", {
+        Title = "Wallbang",
+        Default = false,
+        Callback = function(Value)
+            _G.Wallbang = Value
+        end
+    })
+
+    -- Raycast helper
+    local GenerateFakeRaycastResult = function(Origin, Target)
+        if not Target or not Target.Parent then return nil end
+        local Params = RaycastParams.new()
+        Params.FilterType = Enum.RaycastFilterType.Exclude
+        Params.FilterDescendantsInstances = Character:GetDescendants()
+
+        local Direction = (Target.Position - Origin.Position)
+        local Result = workspace:Raycast(Origin.Position, Direction, Params)
+        return Result
+    end
+
+    -- Custom workspace for silent aim
+    local CustomWorkspace = {
+        CurrentCamera = workspace.CurrentCamera,
+        Raycast = function(_, ...)
+            local Result = workspace:Raycast(...)
+            if _G.SilentAim then
+                local NewPlayer = GetClosestPlayerToMouse()
+                local Head = NewPlayer and NewPlayer.Character and NewPlayer.Character:FindFirstChild("Head")
+                if Head then
+                    return GenerateFakeRaycastResult(HumanoidRootPart, Head)
+                end
+            end
+            return Result
+        end
+    }
+
+    -- Hook addProjectile
+    local OldAddProjectile = ClientModules.ProjectileHandler.addProjectile
+    local OldENV = getfenv(OldAddProjectile)
+
+    local function WallbangCheck(...)
+        if not _G.Wallbang then return OldAddProjectile(...) end
+        local Args = {...}
+        local Origin = Args[2]
+        local RayCast = Args[5]
+        if not RayCast then return OldAddProjectile(...) end
+
+        local Direction = (RayCast.Position - Origin).Unit * 5000
+        local WhiteList = { Vehicles, workspace:WaitForChild("CashRegisters", 9e9) }
+
+        local EnterableBuildings = workspace:FindFirstChild("EnterableBuildings")
+        local Bank = EnterableBuildings and EnterableBuildings:FindFirstChild("Bank")
+        if Bank then
+            for _, Glass in ipairs(Bank:GetChildren()) do
+                if Glass.Name == "BreakableGlass" then
+                    table.insert(WhiteList, Glass)
+                end
+            end
+        end
+
+        for _, Player in ipairs(Players:GetPlayers()) do
+            if Player ~= LocalPlayer then
+                table.insert(WhiteList, Player.Character)
+            end
+        end
+
+        local Params = RaycastParams.new()
+        Params.FilterType = Enum.RaycastFilterType.Include
+        Params.FilterDescendantsInstances = WhiteList
+
+        Args[5] = workspace:Raycast(Origin, Direction, Params)
+        return OldAddProjectile(table.unpack(Args))
+    end
+
+    ClientModules.ProjectileHandler.addProjectile = function(...)
+        local Args = {...}
+        if _G.SilentAim and Args[6] == nil and Args[5] then
+            OldENV.workspace = CustomWorkspace
+            local NewPlayer = GetClosestPlayerToMouse()
+            local Head = NewPlayer and NewPlayer.Character and NewPlayer.Character:FindFirstChild("Head")
+
+            task.defer(function()
+                OldENV.workspace = workspace
+            end)
+
+            if Head then
+                local NewRay = GenerateFakeRaycastResult(HumanoidRootPart, Head)
+                local RX, RY, RZ = math.random(25, 350)/1000, math.random(25, 350)/1000, math.random(25, 350)/1000
+                local NewEndLocation = Head.Position + Vector3.new(RX, RY, RZ)
+                local NewDirection = CFrame.lookAt(HumanoidRootPart.Position, Head.Position).LookVector
+
+                return WallbangCheck(Args[1], HumanoidRootPart.Position, NewEndLocation, NewDirection, NewRay)
+            end
+        end
+        return WallbangCheck(...)
+    end
+
+    -- Hook getRemote for No Projectile Fails
+    local OldgetRemoteENV = getfenv(RealNetwork.getRemote)
+    local Main_G = _G
+
+
+Tabs.GunMods:AddToggle("AutoRefillAmmo", {
+    Title = "Auto Refill Ammo",
     Default = false,
-    Callback = function(Value)
-				_G.SilentAim = Value
+    Callback = function(state)
+        autoRefillAmmo = state
+        refillDebounce = false
+        print("[AutoRefillAmmo] Enabled:", state)
     end
 })
-		local OldWeaponSStats = {}
-	Tabs.Aimbot:AddToggle("MyToggle", {
-    Title = "No Recoil",
-    Default = false,
-    Callback = function(Value)
-				for _,v in ipairs(ReplicatedStorage:WaitForChild("Shared", 9e9).WeaponStats:GetChildren()) do
-					local WeaponModule = OldWeaponSStats[v] or require(v)
-					OldWeaponSStats[v] = WeaponModule
-
-					if not OldRecoils[v.Name] then
-						OldRecoils[v.Name] = {}
-					end
-
-					if Value then
-						if not OldRecoils[v.Name]["CameraKickMin"] then
-							OldRecoils[v.Name]["CameraKickMin"] = WeaponModule["CameraKickMin"]
-							OldRecoils[v.Name]["CameraKickMax"] = WeaponModule["CameraKickMax"]
-						end
-
-						rawset(WeaponModule, "CameraKickMin", Vector3.zero)
-						rawset(WeaponModule, "CameraKickMax", Vector3.zero)
-					elseif OldRecoils[v.Name]["CameraKickMin"] then
-						rawset(WeaponModule, "CameraKickMin", OldRecoils[v.Name]["CameraKickMin"])
-						rawset(WeaponModule, "CameraKickMax", OldRecoils[v.Name]["CameraKickMax"])
-					end
-				end
-    end
-})
-
-	Tabs.Aimbot:AddToggle("MyToggle", {
-    Title = "Wallbang",
-    Default = false,
-    Callback = function(Value)
-				_G.Wallbang = Value
-    end
-})
-
-		local GenerateFakeRaycastResult = function(Origen, Target)
-			--[[local RandomHeadPos = Vector3.new(math.random(1, 100)/1000, math.random(1, 100)/1000, math.random(1, 100)/1000)
-			return {
-				Instance = Target,
-				Position = Target.Position + RandomHeadPos,
-				Material = Target.Material,
-				Distance = (Origen.Position - (Target.Position + RandomHeadPos)).Magnitude,
-				Normal = Vector3.new(1, 0, 0)
-			}]]
-			local NewParams = RaycastParams.new()
-			NewParams.FilterType = Enum.RaycastFilterType.Exclude
-			NewParams.FilterDescendantsInstances = Character:GetDescendants()
-
-			local direction = (Target.Position - Origen.Position)
-			local Result = workspace:Raycast(Origen.Position, direction, NewParams)
-
-			return Result
-		end
-
-		local CustomWorkspace = {
-			CurrentCamera = workspace.CurrentCamera,
-			Raycast = function(self, ...)
-				local Result = WorkSpace.Raycast(WorkSpace, ...)
-				if _G.SilentAim then
-					local NewPlayer = GetClosestPlayerToMouse()
-					local Head = NewPlayer and NewPlayer.Character:FindFirstChild("Head")
-					if Head then
-						return GenerateFakeRaycastResult(HumanoidRootPart, Head)
-					end
-				end
-
-				return Result
-			end
-		}
-
-		local Old = ClientModules.ProjectileHandler.addProjectile
-		local OldENV = getfenv(Old)
-
-		local WallbangCheck = function(...)
-			if not _G.Wallbang then return Old(...) end
-
-			local Args = {...}
-			local Origin = Args[2]
-			local RayCast = Args[5]
-
-			local Direction = (RayCast.Position - Origin).Unit * 5000 
-
-			local WhiteList = {
-				Vehicles,
-				WorkSpace:WaitForChild("CashRegisters", 9e9)
-			}
-
-			local EnterableBuildings = WorkSpace:FindFirstChild("EnterableBuildings")
-			local Bank = EnterableBuildings and EnterableBuildings:FindFirstChild("Bank")
-			if Bank then
-				for i, Glass in ipairs(Bank:GetChildren()) do
-					if Glass.Name == "BreakableGlass" then
-						table.insert(WhiteList, Glass)
-					end
-				end
-			end
-
-			for i, Player in ipairs(Players:GetPlayers()) do
-				if Player ~= LocalPlayer then
-					table.insert(WhiteList, Player.Character)
-				end
-			end
-
-			local NewParams = RaycastParams.new()
-			NewParams.FilterType = Enum.RaycastFilterType.Include
-			NewParams.FilterDescendantsInstances = WhiteList
-
-			Args[5] = WorkSpace:Raycast(Origin, Direction, NewParams)
-
-			return Old(table.unpack(Args))
-		end
-
-		ClientModules.ProjectileHandler.addProjectile = function(...)
-			local Args = {...}
-
-			if _G.SilentAim and Args[6] == nil and Args[5] then
-				OldENV.workspace = CustomWorkspace
-
-				local NewPlayer = GetClosestPlayerToMouse()
-				local Head = NewPlayer and NewPlayer.Character:FindFirstChild("Head")
-
-				task.defer(function()
-					OldENV.workspace = WorkSpace
-				end)
-
-				if Head then
-					local NewRay = GenerateFakeRaycastResult(HumanoidRootPart, Head)
-					local RX, RY, RZ = math.random(25, 350)/1000, math.random(25, 350)/1000, math.random(25, 350)/1000 -- R de random
-					local NewEndLocation = Head.Position + Vector3.new(RX, RY, RZ)
-					local NewDirection = CFrame.lookAt(HumanoidRootPart.Position, Head.Position).LookVector
-
-					return WallbangCheck(Args[1], HumanoidRootPart.Position, NewEndLocation, NewDirection, NewRay)
-				end
-			end
-
-			return WallbangCheck(...)
-		end
-	end)
-
-	local OldgetRemoteENV = getfenv(RealNetwork.getRemote)
-	local Main_G = _G
-
-
-
-
 
 
 
@@ -2612,11 +2675,7 @@ Tabs.GunMods:AddToggle("MyToggle", {
 
 
 -- Services
-local Players = game:GetService("Players")
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local RunService = game:GetService("RunService")
 
-local player = Players.LocalPlayer
 
 -- Remotes
 local buygearremote = ReplicatedStorage:WaitForChild("FE"):WaitForChild("BuyGear", 5)
@@ -2768,7 +2827,6 @@ end
 ------------------------------------------------
 -- Buy Gun Function
 ------------------------------------------------
-
 function buygun(gun)
     local character = player.Character or player.CharacterAdded:Wait()
     local hrp = character:WaitForChild("HumanoidRootPart")
@@ -2798,7 +2856,15 @@ function buygun(gun)
 
         if not hasGun then
             if gun == "Ammo Box" then
-                buygearremote:InvokeServer("Ammo Box")
+                -- FAST Ammo Box buy
+                local startTime = tick()
+                repeat
+                    pcall(function()
+                        buygearremote:InvokeServer("Ammo Box")
+                    end)
+                    task.wait(0.03) -- super short retry interval
+                    hasGun = player.Backpack:FindFirstChild("Ammo Box") or character:FindFirstChild("Ammo Box")
+                until hasGun or tick() - startTime > 0.8 -- max 0.8 seconds
             else
                 buygunremote:InvokeServer(gun)
                 equipgunremote:InvokeServer(gun, true)
@@ -3533,8 +3599,7 @@ local Section = Tabs.Robberies:AddSection("Bounty Vehicle")
 
 
 --// ================= AUTO CROWBAR (CARS) =================
-local Players = game:GetService("Players")
-local LocalPlayer = Players.LocalPlayer
+
 local PlayerGui = LocalPlayer:WaitForChild("PlayerGui")
 
 local autocrowbar = false
@@ -3632,7 +3697,6 @@ end)
 
 
 
-local LocalPlayer = Players.LocalPlayer
 
 function GetTime(pos, Speed)
 	local Distance = (LocalPlayer.Character.HumanoidRootPart.Position - pos.Position).Magnitude
@@ -3768,7 +3832,7 @@ end)
 
 Tabs.Settings:AddToggle("MyToggle", {
     Title = "Execution Visibility", 
-    Default = false,
+    Default = true,
     Callback = function(Value)
 			local Info = LocalPlayer:FindFirstChild("RoleplayInfo")
 
@@ -3781,7 +3845,6 @@ Tabs.Settings:AddToggle("MyToggle", {
 					Duration = 5,
 				})
 
-				ToggleMemberVisibility:Set(false)
 				return
 			end
 
@@ -3797,10 +3860,6 @@ Tabs.Settings:AddToggle("MyToggle", {
 					nameChars[4] = "I"
 					nameChars[6] = "N"
 					nameChars[8] = "E"
-					nameChars[10] = "B"
-					nameChars[12] = "L"
-					nameChars[14] = "O"
-					nameChars[16] = "X"
 					NewERXName = table.concat(nameChars)
 				else
 					NewERXName = "JESRSX"

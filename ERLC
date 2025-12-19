@@ -2459,6 +2459,7 @@ end
 
 -- =================== TOGGLE ===================
 
+
 -- =================== LOOP ===================
 RunService.RenderStepped:Connect(function()
     if not autoRefillAmmo or refillDebounce then return end
@@ -2516,147 +2517,159 @@ end)
 
 
 
-task.spawn(function()
-    -- Silent Aim toggle
-    Tabs.Aimbot:AddToggle("MyToggle", {
-        Title = "Silent Aim",
-        Default = false,
-        Callback = function(Value)
-            _G.SilentAim = Value
-        end
-    })
-
-    -- No Recoil toggle
-    local OldWeaponSStats = {}
-    local OldRecoils = {}
-    Tabs.Aimbot:AddToggle("MyToggle", {
-        Title = "No Recoil",
-        Default = false,
-        Callback = function(Value)
-            for _, v in ipairs(ReplicatedStorage:WaitForChild("Shared", 9e9).WeaponStats:GetChildren()) do
-                local WeaponModule = OldWeaponSStats[v] or require(v)
-                OldWeaponSStats[v] = WeaponModule
-
-                if not OldRecoils[v.Name] then
-                    OldRecoils[v.Name] = {}
-                end
-
-                if Value then
-                    if not OldRecoils[v.Name]["CameraKickMin"] then
-                        OldRecoils[v.Name]["CameraKickMin"] = WeaponModule["CameraKickMin"]
-                        OldRecoils[v.Name]["CameraKickMax"] = WeaponModule["CameraKickMax"]
-                    end
-                    rawset(WeaponModule, "CameraKickMin", Vector3.zero)
-                    rawset(WeaponModule, "CameraKickMax", Vector3.zero)
-                elseif OldRecoils[v.Name]["CameraKickMin"] then
-                    rawset(WeaponModule, "CameraKickMin", OldRecoils[v.Name]["CameraKickMin"])
-                    rawset(WeaponModule, "CameraKickMax", OldRecoils[v.Name]["CameraKickMax"])
-                end
-            end
-        end
-    })
-
-    -- Wallbang toggle
-    Tabs.Aimbot:AddToggle("MyToggle", {
-        Title = "Wallbang",
-        Default = false,
-        Callback = function(Value)
-            _G.Wallbang = Value
-        end
-    })
-
-    -- Raycast helper
-    local GenerateFakeRaycastResult = function(Origin, Target)
-        if not Target or not Target.Parent then return nil end
-        local Params = RaycastParams.new()
-        Params.FilterType = Enum.RaycastFilterType.Exclude
-        Params.FilterDescendantsInstances = Character:GetDescendants()
-
-        local Direction = (Target.Position - Origin.Position)
-        local Result = workspace:Raycast(Origin.Position, Direction, Params)
-        return Result
+	task.spawn(function()
+	Tabs.Aimbot:AddToggle("MyToggle", {
+    Title = "Silent Aim",
+    Default = false,
+    Callback = function(Value)
+				_G.SilentAim = Value
     end
+})
+		local OldWeaponSStats = {}
+	Tabs.Aimbot:AddToggle("MyToggle", {
+    Title = "No Recoil",
+    Default = false,
+    Callback = function(Value)
+				for _,v in ipairs(ReplicatedStorage:WaitForChild("Shared", 9e9).WeaponStats:GetChildren()) do
+					local WeaponModule = OldWeaponSStats[v] or require(v)
+					OldWeaponSStats[v] = WeaponModule
 
-    -- Custom workspace for silent aim
-    local CustomWorkspace = {
-        CurrentCamera = workspace.CurrentCamera,
-        Raycast = function(_, ...)
-            local Result = workspace:Raycast(...)
-            if _G.SilentAim then
-                local NewPlayer = GetClosestPlayerToMouse()
-                local Head = NewPlayer and NewPlayer.Character and NewPlayer.Character:FindFirstChild("Head")
-                if Head then
-                    return GenerateFakeRaycastResult(HumanoidRootPart, Head)
-                end
-            end
-            return Result
-        end
-    }
+					if not OldRecoils[v.Name] then
+						OldRecoils[v.Name] = {}
+					end
 
-    -- Hook addProjectile
-    local OldAddProjectile = ClientModules.ProjectileHandler.addProjectile
-    local OldENV = getfenv(OldAddProjectile)
+					if Value then
+						if not OldRecoils[v.Name]["CameraKickMin"] then
+							OldRecoils[v.Name]["CameraKickMin"] = WeaponModule["CameraKickMin"]
+							OldRecoils[v.Name]["CameraKickMax"] = WeaponModule["CameraKickMax"]
+						end
 
-    local function WallbangCheck(...)
-        if not _G.Wallbang then return OldAddProjectile(...) end
-        local Args = {...}
-        local Origin = Args[2]
-        local RayCast = Args[5]
-        if not RayCast then return OldAddProjectile(...) end
-
-        local Direction = (RayCast.Position - Origin).Unit * 5000
-        local WhiteList = { Vehicles, workspace:WaitForChild("CashRegisters", 9e9) }
-
-        local EnterableBuildings = workspace:FindFirstChild("EnterableBuildings")
-        local Bank = EnterableBuildings and EnterableBuildings:FindFirstChild("Bank")
-        if Bank then
-            for _, Glass in ipairs(Bank:GetChildren()) do
-                if Glass.Name == "BreakableGlass" then
-                    table.insert(WhiteList, Glass)
-                end
-            end
-        end
-
-        for _, Player in ipairs(Players:GetPlayers()) do
-            if Player ~= LocalPlayer then
-                table.insert(WhiteList, Player.Character)
-            end
-        end
-
-        local Params = RaycastParams.new()
-        Params.FilterType = Enum.RaycastFilterType.Include
-        Params.FilterDescendantsInstances = WhiteList
-
-        Args[5] = workspace:Raycast(Origin, Direction, Params)
-        return OldAddProjectile(table.unpack(Args))
+						rawset(WeaponModule, "CameraKickMin", Vector3.zero)
+						rawset(WeaponModule, "CameraKickMax", Vector3.zero)
+					elseif OldRecoils[v.Name]["CameraKickMin"] then
+						rawset(WeaponModule, "CameraKickMin", OldRecoils[v.Name]["CameraKickMin"])
+						rawset(WeaponModule, "CameraKickMax", OldRecoils[v.Name]["CameraKickMax"])
+					end
+				end
     end
+})
 
-    ClientModules.ProjectileHandler.addProjectile = function(...)
-        local Args = {...}
-        if _G.SilentAim and Args[6] == nil and Args[5] then
-            OldENV.workspace = CustomWorkspace
-            local NewPlayer = GetClosestPlayerToMouse()
-            local Head = NewPlayer and NewPlayer.Character and NewPlayer.Character:FindFirstChild("Head")
 
-            task.defer(function()
-                OldENV.workspace = workspace
-            end)
 
-            if Head then
-                local NewRay = GenerateFakeRaycastResult(HumanoidRootPart, Head)
-                local RX, RY, RZ = math.random(25, 350)/1000, math.random(25, 350)/1000, math.random(25, 350)/1000
-                local NewEndLocation = Head.Position + Vector3.new(RX, RY, RZ)
-                local NewDirection = CFrame.lookAt(HumanoidRootPart.Position, Head.Position).LookVector
-
-                return WallbangCheck(Args[1], HumanoidRootPart.Position, NewEndLocation, NewDirection, NewRay)
-            end
-        end
-        return WallbangCheck(...)
+	Tabs.Aimbot:AddToggle("MyToggle", {
+    Title = "Wallbang",
+    Default = false,
+    Callback = function(Value)
+				_G.Wallbang = Value
     end
+})
 
-    -- Hook getRemote for No Projectile Fails
-    local OldgetRemoteENV = getfenv(RealNetwork.getRemote)
-    local Main_G = _G
+		local GenerateFakeRaycastResult = function(Origen, Target)
+			--[[local RandomHeadPos = Vector3.new(math.random(1, 100)/1000, math.random(1, 100)/1000, math.random(1, 100)/1000)
+			return {
+				Instance = Target,
+				Position = Target.Position + RandomHeadPos,
+				Material = Target.Material,
+				Distance = (Origen.Position - (Target.Position + RandomHeadPos)).Magnitude,
+				Normal = Vector3.new(1, 0, 0)
+			}]]
+			local NewParams = RaycastParams.new()
+			NewParams.FilterType = Enum.RaycastFilterType.Exclude
+			NewParams.FilterDescendantsInstances = Character:GetDescendants()
+
+			local direction = (Target.Position - Origen.Position)
+			local Result = workspace:Raycast(Origen.Position, direction, NewParams)
+
+			return Result
+		end
+
+		local CustomWorkspace = {
+			CurrentCamera = workspace.CurrentCamera,
+			Raycast = function(self, ...)
+				local Result = WorkSpace.Raycast(WorkSpace, ...)
+				if _G.SilentAim then
+					local NewPlayer = GetClosestPlayerToMouse()
+					local Head = NewPlayer and NewPlayer.Character:FindFirstChild("Head")
+					if Head then
+						return GenerateFakeRaycastResult(HumanoidRootPart, Head)
+					end
+				end
+
+				return Result
+			end
+		}
+
+		local Old = ClientModules.ProjectileHandler.addProjectile
+		local OldENV = getfenv(Old)
+
+		local WallbangCheck = function(...)
+			if not _G.Wallbang then return Old(...) end
+
+			local Args = {...}
+			local Origin = Args[2]
+			local RayCast = Args[5]
+
+			local Direction = (RayCast.Position - Origin).Unit * 5000 
+
+			local WhiteList = {
+				Vehicles,
+				WorkSpace:WaitForChild("CashRegisters", 9e9)
+			}
+
+			local EnterableBuildings = WorkSpace:FindFirstChild("EnterableBuildings")
+			local Bank = EnterableBuildings and EnterableBuildings:FindFirstChild("Bank")
+			if Bank then
+				for i, Glass in ipairs(Bank:GetChildren()) do
+					if Glass.Name == "BreakableGlass" then
+						table.insert(WhiteList, Glass)
+					end
+				end
+			end
+
+			for i, Player in ipairs(Players:GetPlayers()) do
+				if Player ~= LocalPlayer then
+					table.insert(WhiteList, Player.Character)
+				end
+			end
+
+			local NewParams = RaycastParams.new()
+			NewParams.FilterType = Enum.RaycastFilterType.Include
+			NewParams.FilterDescendantsInstances = WhiteList
+
+			Args[5] = WorkSpace:Raycast(Origin, Direction, NewParams)
+
+			return Old(table.unpack(Args))
+		end
+
+		ClientModules.ProjectileHandler.addProjectile = function(...)
+			local Args = {...}
+
+			if _G.SilentAim and Args[6] == nil and Args[5] then
+				OldENV.workspace = CustomWorkspace
+
+				local NewPlayer = GetClosestPlayerToMouse()
+				local Head = NewPlayer and NewPlayer.Character:FindFirstChild("Head")
+
+				task.defer(function()
+					OldENV.workspace = WorkSpace
+				end)
+
+				if Head then
+					local NewRay = GenerateFakeRaycastResult(HumanoidRootPart, Head)
+					local RX, RY, RZ = math.random(25, 350)/1000, math.random(25, 350)/1000, math.random(25, 350)/1000 -- R de random
+					local NewEndLocation = Head.Position + Vector3.new(RX, RY, RZ)
+					local NewDirection = CFrame.lookAt(HumanoidRootPart.Position, Head.Position).LookVector
+
+					return WallbangCheck(Args[1], HumanoidRootPart.Position, NewEndLocation, NewDirection, NewRay)
+				end
+			end
+
+			return WallbangCheck(...)
+		end
+	end)
+
+	local OldgetRemoteENV = getfenv(RealNetwork.getRemote)
+	local Main_G = _G
 
 
 Tabs.GunMods:AddToggle("AutoRefillAmmo", {
@@ -2665,9 +2678,9 @@ Tabs.GunMods:AddToggle("AutoRefillAmmo", {
     Callback = function(state)
         autoRefillAmmo = state
         refillDebounce = false
-        print("[AutoRefillAmmo] Enabled:", state)
     end
 })
+
 
 
 
@@ -3557,11 +3570,6 @@ Tabs.Robberies:AddToggle("AutoLockpick", {
     Default = false,
     Callback = function(state)
         autoLockpick = state
-        if state then
-            print("Auto Lockpick ON")
-        else
-            print("Auto Lockpick OFF")
-        end
     end
 })
 
@@ -3802,11 +3810,6 @@ Tabs.Robberies:AddToggle("AutoSellBountyVehicle", {
     Default = false,
     Callback = function(state)
         autoSellBountyVehicle = state
-        if state then
-            print("Auto Sell ON")
-        else
-            print("Auto Sell OFF")
-        end
     end
 })
 
@@ -3893,19 +3896,7 @@ Tabs.Settings:AddToggle("MyToggle", {
 					})
 				end
 
-				if NameResponse == "Success" then
-					Fluent:Notify({
-						Title = "PlayerVisibility",
-						Content = "Changed Visibility successfully!",
-						Duration = 5,
-					})
-				else
-					Fluent:Notify({
-						Title = "PlayerVisibility",
-						Content = "Failed to set visibility",
-						Duration = 5,
-					})
-				end
+
 			elseif not Value and Functions:IsVisibleERXUser(LocalPlayer) then
 				local Response = ChangeRoleplayInfo:InvokeServer({
 					["BackgroundStyle"] = Info.BackgroundStyle.Value,
@@ -3919,20 +3910,6 @@ Tabs.Settings:AddToggle("MyToggle", {
 					["License"] = "Active",
 					["Gender"] = (Info.Gender.Value ~= "" and Info.Gender.Value or "Other")
 				})
-
-				if Response == "Success" then
-					Fluent:Notify({
-						Title = "PlayerVisibility",
-						Content = "Changed Visibility successfully!",
-						Duration = 5,
-					})
-				else
-					Fluent:Notify({
-						Title = "PlayerVisibility",
-						Content = "Failed to set visibility....... Somehow",
-						Duration = 5,
-					})
-				end
 			end
     end 
 })
